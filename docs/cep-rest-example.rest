@@ -1,0 +1,12 @@
+@apiUrl = viacep.com.br/ws
+@cep1 = 02531012
+@contentType = application/json
+
+###
+
+GET https://{{apiUrl}}/{{cep1}}/json/
+Content-Type: {{contentType}}
+
+###
+
+GET https://{{apiUrl}}/sp/são%20paulo/rua+ouro+grosso/json
