@@ -1,10 +1,10 @@
-import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import React from 'react'
+import Layout from '~/components/Layout'
 import styles from '~/styles/Home.module.css'
 
-const Home: NextPage = () => {
+const Home = () => {
   return (
     <>
       <Head>
@@ -68,6 +68,10 @@ const Home: NextPage = () => {
       </footer>
     </>
   )
+}
+
+Home.getLayout = function getLayout(page: React.ReactElement) {
+  return <Layout>{page}</Layout>
 }
 
 export default Home
