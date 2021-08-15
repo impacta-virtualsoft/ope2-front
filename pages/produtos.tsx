@@ -1,6 +1,3 @@
-import type { ReactElement } from 'react'
-import Layout from '~/components/Layout'
-
 type ProductOptionalsAndExtras = {
   id: number
   name: string
@@ -531,10 +528,6 @@ const Products = () => {
       </div>
     </>
   )
-}
-
-Products.getLayout = function getLayout(page: ReactElement) {
-  return <Layout>{page}</Layout>
 }
 
 export default Products

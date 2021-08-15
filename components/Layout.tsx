@@ -1,9 +1,10 @@
 import React from 'react'
 import Header from './Header'
 import MainNav from './MainNav'
+import Meta from './Meta'
 
 const navMain = [
-  { label: 'Dashboard', href: '/' },
+  { label: 'Início', href: '/' },
   { label: 'Produtos', href: '/produtos' },
   { label: 'Pedidos', href: '/pedidos' },
   { label: 'Clientes', href: '/clientes' },
@@ -25,10 +26,11 @@ const navUser = [
 ]
 
 const Layout: React.FC = ({ children }) => {
-  const [title, setTitle] = React.useState('Dashboard')
+  const [title, setTitle] = React.useState('Divina Hamburgueria')
 
   return (
     <div>
+      <Meta />
       <MainNav navMain={navMain} navUser={navUser} />
       <Header title={title} />
       <main>

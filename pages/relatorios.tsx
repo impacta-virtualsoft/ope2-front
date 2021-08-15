@@ -1,11 +1,14 @@
-import Layout from '~/components/Layout'
-
 const Reports = () => {
   return <div>Relatórios</div>
 }
 
-Reports.getLayout = function getLayout(page: React.ReactElement) {
-  return <Layout>{page}</Layout>
+Reports.CustomLayout = function customLayout(page: React.ReactElement) {
+  return (
+    <>
+      <h1>Custom Layout!</h1>
+      {page}
+    </>
+  )
 }
 
 export default Reports
