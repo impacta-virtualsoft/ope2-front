@@ -9,7 +9,20 @@ const navMain = [
   { label: 'Clientes', href: '/clientes' },
   { label: 'Relatórios', href: '/relatorios' },
 ]
-const navUser = ['Perfil', 'Ajustes', 'Sair']
+const navUser = [
+  {
+    label: 'Perfil',
+    href: '/profile',
+  },
+  {
+    label: 'Ajustes',
+    href: '/settings',
+  },
+  {
+    label: 'Sair',
+    href: '/logout',
+  },
+]
 
 const Layout: React.FC = ({ children }) => {
   const [title, setTitle] = React.useState('Dashboard')

@@ -1,6 +1,6 @@
 // Junta nomes de classes condicionalmente
-function classNames(...classes: string[]) {
+function joinClasses(...classes: string[]) {
   return classes.filter(Boolean).join(' ')
 }
 
-export { classNames }
+export { joinClasses }
