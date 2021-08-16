@@ -36,7 +36,7 @@ const Home = () => {
             </a>
           </Link>
           <Link href="/pedidos">
-            <a style={{ width: '63%' }}>
+            <a style={{ width: '61%' }} className={styles.card}>
               <Bar
                 data={data.ordersByWeekday}
                 options={options.ordersByWeekday}
@@ -45,7 +45,7 @@ const Home = () => {
           </Link>
 
           <Link href="/pedidos">
-            <a style={{ width: '80%' }}>
+            <a style={{ width: '93%' }} className={styles.card}>
               <Bar
                 data={data.ordersByPotentialClients}
                 options={options.ordersByPotentialClients}
