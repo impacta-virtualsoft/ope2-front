@@ -6,6 +6,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Hydrate } from 'react-query/hydration'
 import 'tailwindcss/tailwind.css'
 import Layout from '~/components/Layout'
+import { Provider } from '~/service/Provider'
 
 type AppPropsWithLayout = AppProps & {
   Component: NextPage & {
@@ -24,7 +25,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
   )
   return (
     <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>{getLayout}</Hydrate>
+      <Hydrate state={pageProps.dehydratedState}>
+        <Provider>{getLayout}</Provider>
+      </Hydrate>
     </QueryClientProvider>
   )
 }
