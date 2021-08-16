@@ -140,6 +140,72 @@ const Products = () => {
                       PNG, JPG, GIF até 20MB
                     </p>
                   </div>
+
+                  <div>
+                    <label
+                      htmlFor="recipe"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Receita
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <input
+                        type="text"
+                        name="recipe"
+                        id="recipe"
+                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
+                        placeholder="Receita de Hamburguer Simples"
+                      />
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Procure pela receita ou selecione na lista. Ao selecionar
+                      a receita, você terá o controle de estoque dos
+                      ingredientes.
+                    </p>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="optionals"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Opcionais
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <input
+                        type="text"
+                        name="optionals"
+                        id="optionals"
+                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
+                        placeholder="Receita de Hamburguer Simples"
+                      />
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Lista de ingredientes a colocar ou tirar.
+                    </p>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="extras"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Extras
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <input
+                        type="text"
+                        name="extras"
+                        id="extras"
+                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
+                        placeholder="Receita de Hamburguer Simples"
+                      />
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Lista de produtos que podem ser incluídos como sugestão.
+                      Exemplo: Refrigerante, batata frita média, etc.
+                    </p>
+                  </div>
                 </div>
                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                   <button
