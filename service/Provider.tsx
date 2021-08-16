@@ -31,7 +31,10 @@ type AppDataType = {
 const Context = React.createContext<AppDataType | {}>({})
 
 export function Provider({ children }: { children: React.ReactNode }) {
-  const { data: user } = useQuery<User, Error>(['user', { id: 1 }], getUser)
+  const { data: user } = useQuery<User, Error>(
+    ['user', { id: 1 }],
+    getUser as any
+  )
 
   return <Context.Provider value={{ user }}>{children}</Context.Provider>
 }
