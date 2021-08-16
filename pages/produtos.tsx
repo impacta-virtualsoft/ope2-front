@@ -1,9 +1,6 @@
-import { Menu, Transition } from '@headlessui/react'
-import { ChevronDownIcon } from '@heroicons/react/solid'
-import React, { Fragment } from 'react'
-import { useSelect } from 'react-select-search/dist/cjs'
+import React from 'react'
+import Select from 'react-select'
 import MealSVG from '~/assets/images/meal.svg'
-import { joinClasses } from '~/helpers/strings'
 
 type ProductOptionalsAndExtras = {
   id: number
@@ -60,77 +57,10 @@ const dataExample: ProductType[] = [
   },
 ]
 
-const CustomSelect = ({ options, value, multiple, disabled }) => {
-  const [snapshot, valueProps, optionProps] = useSelect({
-    options,
-    value,
-    multiple,
-    disabled,
-  })
-
-  return (
-    <>
-      <Menu as="div" className="relative inline-block text-left">
-        <div>
-          <Menu.Button className="inline-flex justify-center w-full rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-100 focus:ring-indigo-500">
-            {snapshot.displayValue}
-            <ChevronDownIcon
-              className="-mr-1 ml-2 h-5 w-5"
-              aria-hidden="true"
-            />
-          </Menu.Button>
-        </div>
-        {/* <input
-        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-l-md sm:text-sm border-gray-300 bg-white border-r-0"
-        type="text"
-        value={snapshot.displayValue}
-        {...valueProps}
-      />
-      <span className="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 text-gray-500 text-sm">
-        <ChevronDownIcon className="-mr-1 ml-2 h-5 w-5" aria-hidden="true" />
-      </span> */}
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          {/* {snapshot.focus && ( */}
-          <Menu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
-            {snapshot.options.map((option) => (
-              <div
-                className="py-1"
-                key={option.value}
-                {...optionProps}
-                value={option.value}
-              >
-                <Menu.Item>
-                  {({ active }) => (
-                    <a
-                      href="#"
-                      className={joinClasses(
-                        active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                        'block px-4 py-2 text-sm'
-                      )}
-                    >
-                      {option.name}
-                    </a>
-                  )}
-                </Menu.Item>
-              </div>
-            ))}
-          </Menu.Items>
-          {/* )} */}
-        </Transition>
-      </Menu>
-    </>
-  )
-}
-
 const Products = () => {
+  const [selectedRecipe, setSelectedRecipe] = React.useState(null)
+  const [selectedOptionals, setSelectedOptionals] = React.useState(null)
+  const [selectedExtras, setSelectedExtras] = React.useState(null)
   const inputPhotoRef = React.useRef(null)
   const handleFileButton = () => {
     if (inputPhotoRef?.current) {
@@ -142,19 +72,47 @@ const Products = () => {
   }
   const recipeOptions = [
     {
-      name: 'Afrodite: Hamburguer com Picles e Amendoim',
+      label: 'Afrodite: Hamburguer com Picles e Amendoim',
       value: 1,
     },
-    { name: 'Zeus: Hamburguer Duplo', value: 2 },
+    { label: 'Zeus: Hamburguer Duplo', value: 2 },
     {
-      name: 'Athena: Hamburguer com molho agridoce',
+      label: 'Athena: Hamburguer com molho agridoce',
       value: 3,
     },
+  ]
+  const optionalsOptions = [
     {
-      type: 'group',
-      name: 'Receitas',
-      items: [{ name: 'Spanish', value: 1 }],
-      value: '',
+      label: 'Tomate',
+      value: 1,
+      max: 2,
+      min: 0,
+    },
+    {
+      label: 'Alface',
+      value: 2,
+      max: 2,
+      min: 0,
+    },
+    {
+      label: 'Pão Francês',
+      max: 1,
+      min: 0,
+      value: 3,
+    },
+  ]
+  const extrasOptions = [
+    {
+      label: 'Batata Frita',
+      value: 1,
+      max: 1,
+      min: 0,
+    },
+    {
+      label: 'Refrigerante',
+      value: 2,
+      max: 1,
+      min: 0,
     },
   ]
 
@@ -231,14 +189,14 @@ const Products = () => {
                       Receita
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
-                      <CustomSelect options={recipeOptions} id="recipe" />
-                      {/* <input
-                        type="text"
-                        name="recipe"
-                        id="recipe"
+                      <Select
+                        options={recipeOptions}
+                        onChange={setSelectedRecipe}
+                        defaultValue={selectedRecipe}
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
-                        placeholder="Receita de Hamburguer Simples"
-                      /> */}
+                        id="recipe"
+                        name="recipe"
+                      />
                     </div>
                     <p className="mt-2 text-sm text-gray-500">
                       Procure pela receita ou selecione na lista. Ao selecionar
@@ -283,12 +241,14 @@ const Products = () => {
                       Opcionais
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        type="text"
-                        name="optionals"
-                        id="optionals"
+                      <Select
+                        options={optionalsOptions}
+                        onChange={setSelectedOptionals}
+                        defaultValue={selectedOptionals}
+                        isMulti
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
-                        placeholder="Receita de Hamburguer Simples"
+                        id="optionals"
+                        name="optionals"
                       />
                     </div>
                     <p className="mt-2 text-sm text-gray-500">
@@ -304,12 +264,14 @@ const Products = () => {
                       Extras
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        type="text"
-                        name="extras"
-                        id="extras"
+                      <Select
+                        options={extrasOptions}
+                        onChange={setSelectedExtras}
+                        defaultValue={selectedExtras}
+                        isMulti
                         className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
-                        placeholder="Receita de Hamburguer Simples"
+                        id="extras"
+                        name="extras"
                       />
                     </div>
                     <p className="mt-2 text-sm text-gray-500">
