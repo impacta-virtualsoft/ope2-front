@@ -5,7 +5,7 @@ import Meta from './Meta'
 
 const navMain = [
   { label: 'Início', href: '/' },
-  { label: 'Produtos', href: '/produtos' },
+  { label: 'Cardápio', href: '/cardapio' },
   { label: 'Pedidos', href: '/pedidos' },
   { label: 'Clientes', href: '/clientes' },
   { label: 'Relatórios', href: '/relatorios' },

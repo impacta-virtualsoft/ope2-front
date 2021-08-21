@@ -61,6 +61,7 @@ const Products = () => {
   const [selectedRecipe, setSelectedRecipe] = React.useState(null)
   const [selectedOptionals, setSelectedOptionals] = React.useState(null)
   const [selectedExtras, setSelectedExtras] = React.useState(null)
+  const [selectedType, setSelectedType] = React.useState(null)
   const inputPhotoRef = React.useRef(null)
   const handleFileButton = () => {
     if (inputPhotoRef?.current) {
@@ -115,6 +116,20 @@ const Products = () => {
       min: 0,
     },
   ]
+  const typeOptions = [
+    {
+      label: 'Receita',
+      value: 1,
+    },
+    {
+      label: 'Ingrediente',
+      value: 2,
+    },
+    {
+      label: 'Revenda',
+      value: 3,
+    },
+  ]
 
   return (
     <>
@@ -123,10 +138,10 @@ const Products = () => {
           <div className="md:col-span-1">
             <div className="px-4 sm:px-0">
               <h3 className="text-lg font-medium leading-6 text-gray-900">
-                Novo Produto
+                Novo Item de Cardápio
               </h3>
               <p className="mt-1 text-sm text-gray-600">
-                Cadastre as informações de um novo produto
+                Cadastre as informações de um novo item de cardápio
               </p>
             </div>
           </div>
@@ -183,6 +198,36 @@ const Products = () => {
 
                   <div>
                     <label
+                      htmlFor="type"
+                      className="block text-sm font-medium text-gray-700"
+                    >
+                      Tipo
+                    </label>
+                    <div className="mt-1 flex rounded-md shadow-sm">
+                      <Select
+                        options={typeOptions}
+                        onChange={setSelectedType}
+                        defaultValue={selectedType}
+                        className="focus:ring-0 flex-1 block w-full rounded sm:text-sm border-gray-300"
+                        id="type"
+                        name="type"
+                      />
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Receita: item que é processado (Exemplo: Hamburguer
+                      Athena)
+                    </p>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Ingrediente: item que faz uma receita (Exemplo: Tomate)
+                    </p>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Revenda: item que é apenas de revenda (Exemplo:
+                      Refrigerante)
+                    </p>
+                  </div>
+
+                  <div>
+                    <label
                       htmlFor="recipe"
                       className="block text-sm font-medium text-gray-700"
                     >
@@ -193,7 +238,7 @@ const Products = () => {
                         options={recipeOptions}
                         onChange={setSelectedRecipe}
                         defaultValue={selectedRecipe}
-                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
+                        className="focus:ring-0 flex-1 block w-full rounded sm:text-sm border-gray-300"
                         id="recipe"
                         name="recipe"
                       />
