@@ -1,4 +1,5 @@
 import { NextPage } from 'next'
+import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
 import React from 'react'
@@ -24,11 +25,13 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     </Layout>
   )
   return (
-    <QueryClientProvider client={queryClient}>
-      <Hydrate state={pageProps.dehydratedState}>
-        <Provider>{getLayout}</Provider>
-      </Hydrate>
-    </QueryClientProvider>
+    <ThemeProvider attribute="class">
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Provider>{getLayout}</Provider>
+        </Hydrate>
+      </QueryClientProvider>
+    </ThemeProvider>
   )
 }
 export default MyApp

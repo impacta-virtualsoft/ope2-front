@@ -57,14 +57,14 @@ const dataExample: ProductType[] = [
   },
 ]
 
-const Products = () => {
+const CardapioEdit = () => {
   const [selectedRecipe, setSelectedRecipe] = React.useState(null)
   const [selectedOptionals, setSelectedOptionals] = React.useState(null)
   const [selectedExtras, setSelectedExtras] = React.useState(null)
   const [selectedType, setSelectedType] = React.useState(null)
-  const inputPhotoRef = React.useRef(null)
+  const inputPhotoRef = React.useRef<HTMLInputElement>(null)
   const handleFileButton = () => {
-    if (inputPhotoRef?.current) {
+    if (inputPhotoRef && inputPhotoRef.current !== null) {
       inputPhotoRef.current.click()
     }
   }
@@ -342,4 +342,4 @@ const Products = () => {
   )
 }
 
-export default Products
+export default CardapioEdit
