@@ -58,10 +58,11 @@ const dataExample: ProductType[] = [
 ]
 
 const CardapioEdit = () => {
-  const [selectedRecipe, setSelectedRecipe] = React.useState(null)
-  const [selectedOptionals, setSelectedOptionals] = React.useState(null)
-  const [selectedExtras, setSelectedExtras] = React.useState(null)
-  const [selectedType, setSelectedType] = React.useState(null)
+  type OptionType = { label: string; value: number }
+  const [selectedRecipe, setSelectedRecipe] = React.useState<any>(null)
+  const [selectedOptionals, setSelectedOptionals] = React.useState<any>(null)
+  const [selectedExtras, setSelectedExtras] = React.useState<any>(null)
+  const [selectedType, setSelectedType] = React.useState<any>(null)
   const inputPhotoRef = React.useRef<HTMLInputElement>(null)
   const handleFileButton = () => {
     if (inputPhotoRef && inputPhotoRef.current !== null) {
