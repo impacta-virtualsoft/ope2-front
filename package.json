@@ -14,9 +14,11 @@
     "@kurkle/color": "^0.1.9",
     "@svgr/webpack": "^5.5.0",
     "@tailwindcss/forms": "^0.3.3",
+    "@tailwindcss/typography": "^0.4.1",
     "axios": "^0.21.1",
     "chart.js": "^3.5.0",
     "clsx": "^1.1.1",
+    "color": "^4.0.1",
     "fuse.js": "^6.4.6",
     "next": "11.1.0",
     "next-themes": "^0.0.15",
@@ -28,6 +30,7 @@
     "react-select": "^4.3.1"
   },
   "devDependencies": {
+    "@types/color": "^3.0.2",
     "@types/react": "^17.0.17",
     "@types/react-select": "^4.0.17",
     "autoprefixer": "^10.3.1",

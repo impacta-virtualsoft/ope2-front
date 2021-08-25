@@ -5,7 +5,8 @@ module.exports = {
     extend: {},
   },
   variants: {
+    typography: ['dark'],
     extend: {},
   },
-  plugins: [require('@tailwindcss/forms')],
+  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/typography')],
 }

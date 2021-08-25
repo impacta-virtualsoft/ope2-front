@@ -68,7 +68,7 @@ const CardapioEdit = () => {
       inputPhotoRef.current.click()
     }
   }
-  const handleFile = (e) => {
+  const handleFile = (e: any) => {
     console.log(e.target.files)
   }
   const recipeOptions = [

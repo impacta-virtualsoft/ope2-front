@@ -1,4 +1,5 @@
 import colorLib from '@kurkle/color'
+import color from 'color'
 import { round } from './numbers'
 
 let _seed = Date.now()
@@ -67,186 +68,244 @@ const CHART_COLORS2 = {
   grey: 'rgb(150, 154, 163)',
 }
 
-const data = {
-  products: {
-    labels: ['Zeus', 'Poseidom', 'Hera', 'Athena', 'Afrodite'],
-    datasets: [
-      {
-        label: 'Produtos Mais Vendidos',
-        data: generateFakeNumbers(NUMBER_CFG),
-        backgroundColor: Object.values(CHART_COLORS),
-      },
-    ],
-  },
-  orders: {
-    labels: ['Zeus', 'Poseidom', 'Hera', 'Athena', 'Afrodite'],
-    datasets: [
-      {
-        label: 'Hoje',
-        data: generateFakeNumbers({ ...NUMBER_CFG, max: 50 }),
-        backgroundColor: Object.values(CHART_COLORS),
-      },
-    ],
-  },
-  ordersYesterday: {
-    labels: ['Zeus', 'Poseidom', 'Hera', 'Athena', 'Afrodite'],
-    datasets: [
-      {
-        label: 'Ontem',
-        data: generateFakeNumbers({ ...NUMBER_CFG, max: 30 }),
-        backgroundColor: Object.values(CHART_COLORS),
-      },
-    ],
-  },
-  clients: {
-    labels: [
-      'Casa Verde',
-      'Santana',
-      'Tucuruvi',
-      'Vila Maria',
-      'Jardim Tremembé',
-    ],
-    datasets: [
-      {
-        label: 'Clientes por Bairro',
-        data: generateFakeNumbers(NUMBER_CFG),
-        backgroundColor: Object.values(CHART_COLORS2),
-      },
-    ],
-  },
-  ordersByWeekday: {
-    labels: ['Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
-    datasets: [
-      {
-        label: 'Mais vendidos por dia da semana',
-        data: generateFakeNumbers({ ...NUMBER_CFG, max: 300, count: 6 }),
-        backgroundColor: Object.values(CHART_COLORS),
-      },
-    ],
-  },
-  ordersByPotentialClients: {
-    labels: [
-      'Casa Verde',
-      'Santana',
-      'Tucuruvi',
-      'Vila Maria',
-      'Jardim Tremembé',
-      'Vila Guilherme',
-    ],
-    datasets: [
-      {
-        type: 'bar',
-        label: '% Clientes por Distrito',
-        data: districtData.map((district) =>
-          round(
-            (Math.floor(district.population * (Math.random() * 0.05)) /
-              district.population) *
-              100
-          )
-        ),
-
-        backgroundColor: [
-          ...Object.values(Object.values(CHART_COLORS2)).map((color) =>
-            colorLib(color).alpha(0.5).rgbString()
+const Data = (darkMode = false) => {
+  const genericBackgroundColor = darkMode
+    ? Object.values(CHART_COLORS).map((c) =>
+        color(c).darken(0.5).rgb().string()
+      )
+    : Object.values(CHART_COLORS)
+  const genericBorderColor = darkMode ? '#333' : '#efefef'
+  return {
+    products: {
+      labels: ['Zeus', 'Poseidom', 'Hera', 'Athena', 'Afrodite'],
+      datasets: [
+        {
+          label: 'Produtos Mais Vendidos',
+          data: generateFakeNumbers(NUMBER_CFG),
+          backgroundColor: genericBackgroundColor,
+          borderColor: genericBorderColor,
+        },
+      ],
+    },
+    orders: {
+      labels: ['Zeus', 'Poseidom', 'Hera', 'Athena', 'Afrodite'],
+      datasets: [
+        {
+          label: 'Hoje',
+          data: generateFakeNumbers({ ...NUMBER_CFG, max: 50 }),
+          backgroundColor: genericBackgroundColor,
+          borderColor: genericBorderColor,
+        },
+      ],
+    },
+    ordersYesterday: {
+      labels: ['Zeus', 'Poseidom', 'Hera', 'Athena', 'Afrodite'],
+      datasets: [
+        {
+          label: 'Ontem',
+          data: generateFakeNumbers({ ...NUMBER_CFG, max: 30 }),
+          backgroundColor: genericBackgroundColor,
+          borderColor: genericBorderColor,
+        },
+      ],
+    },
+    clients: {
+      labels: [
+        'Casa Verde',
+        'Santana',
+        'Tucuruvi',
+        'Vila Maria',
+        'Jardim Tremembé',
+      ],
+      datasets: [
+        {
+          label: 'Clientes por Bairro',
+          data: generateFakeNumbers(NUMBER_CFG),
+          backgroundColor: Object.values(CHART_COLORS2),
+        },
+      ],
+    },
+    ordersByWeekday: {
+      labels: ['Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado', 'Domingo'],
+      datasets: [
+        {
+          label: 'Mais vendidos por dia da semana',
+          data: generateFakeNumbers({ ...NUMBER_CFG, max: 300, count: 6 }),
+          backgroundColor: Object.values(CHART_COLORS),
+        },
+      ],
+    },
+    ordersByPotentialClients: {
+      labels: [
+        'Casa Verde',
+        'Santana',
+        'Tucuruvi',
+        'Vila Maria',
+        'Jardim Tremembé',
+        'Vila Guilherme',
+      ],
+      datasets: [
+        {
+          type: 'bar',
+          label: '% Clientes por Distrito',
+          data: districtData.map((district) =>
+            round(
+              (Math.floor(district.population * (Math.random() * 0.05)) /
+                district.population) *
+                100
+            )
           ),
-        ],
-        yAxisID: 'yAxis1',
-      },
-      {
-        type: 'line',
-        label: 'Habitantes por Distrito',
-        data: districtData.map((district) => district.population),
-        backgroundColor: colorLib(CHART_COLORS.red).alpha(0.5).rgbString(),
-        yAxisID: 'yAxis2',
-        borderWidth: 2,
-        borderColor: CHART_COLORS.red,
-      },
-    ],
-  },
+
+          backgroundColor: [
+            ...Object.values(Object.values(CHART_COLORS2)).map((color) =>
+              colorLib(color).alpha(0.5).rgbString()
+            ),
+          ],
+          yAxisID: 'yAxis1',
+        },
+        {
+          type: 'line',
+          label: 'Habitantes por Distrito',
+          data: districtData.map((district) => district.population),
+          backgroundColor: colorLib(CHART_COLORS.red).alpha(0.5).rgbString(),
+          yAxisID: 'yAxis2',
+          borderWidth: 2,
+          borderColor: CHART_COLORS.red,
+        },
+      ],
+    },
+  }
 }
 
-const options = {
-  products: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-      },
-      title: {
-        display: true,
-        text: ['Mais Vendidos', 'últimos 30 dias'],
-      },
-    },
-  },
-  orders: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-      },
-      title: {
-        display: true,
-        text: 'Hoje',
+const Options = (darkMode = false) => {
+  const invertColor = {
+    color: darkMode ? '#efefef' : '#333',
+  }
+
+  return {
+    products: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            ...invertColor,
+          },
+        },
+        title: {
+          display: true,
+          text: ['Mais Vendidos', 'últimos 30 dias'],
+          ...invertColor,
+        },
       },
     },
-  },
-  ordersYesterday: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-      },
-      title: {
-        display: true,
-        text: 'Ontem',
-      },
-    },
-  },
-  clients: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-      },
-      title: {
-        display: true,
-        text: 'por Bairro',
+    orders: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            ...invertColor,
+          },
+        },
+        title: {
+          display: true,
+          text: 'Hoje',
+          ...invertColor,
+        },
       },
     },
-  },
-  ordersByWeekday: {
-    responsive: true,
-    plugins: {
-      legend: {
-        display: false,
-      },
-      title: {
-        display: true,
-        text: ['Mais Vendidos', 'por Dia da Semana'],
-      },
-    },
-  },
-  ordersByPotentialClients: {
-    responsive: true,
-    scales: {
-      yAxis1: {
-        type: 'linear',
-      },
-      yAxis2: {
-        type: 'logarithmic',
-        position: 'right',
+    ordersYesterday: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          fontColor: darkMode ? '#efefef' : '#333',
+          labels: {
+            ...invertColor,
+          },
+        },
+        title: {
+          display: true,
+          text: 'Ontem',
+          ...invertColor,
+        },
       },
     },
-    plugins: {
-      legend: {
-        display: false,
-      },
-      title: {
-        display: true,
-        text: '% Clientes x Habitantes',
+    clients: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          fontColor: darkMode ? '#efefef' : '#333',
+          labels: {
+            ...invertColor,
+          },
+        },
+        title: {
+          display: true,
+          text: 'por Bairro',
+          ...invertColor,
+        },
       },
     },
-  },
+    ordersByWeekday: {
+      responsive: true,
+      scales: {
+        x: {
+          ticks: { ...invertColor },
+        },
+        y: {
+          ticks: { ...invertColor },
+        },
+      },
+
+      plugins: {
+        legend: {
+          display: false,
+          fontColor: darkMode ? '#efefef' : '#333',
+          labels: {
+            ...invertColor,
+          },
+        },
+        title: {
+          display: true,
+          text: ['Mais Vendidos', 'por Dia da Semana'],
+          ...invertColor,
+        },
+      },
+    },
+    ordersByPotentialClients: {
+      responsive: true,
+      scales: {
+        yAxis1: {
+          type: 'linear',
+          ticks: { ...invertColor },
+        },
+        yAxis2: {
+          type: 'logarithmic',
+          position: 'right',
+          ticks: { ...invertColor },
+        },
+        x: {
+          ticks: { ...invertColor },
+        },
+      },
+      plugins: {
+        legend: {
+          display: false,
+          labels: {
+            ...invertColor,
+          },
+        },
+        title: {
+          display: true,
+          text: '% Clientes x Habitantes',
+          ...invertColor,
+        },
+      },
+    },
+  }
 }
 
-export { data, options }
+export { Data, Options }
