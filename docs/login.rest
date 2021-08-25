@@ -1,0 +1,13 @@
+
+# @name login
+POST https://virtualsoft.dev.br/auth-token/
+Content-Type: application/json
+
+{
+  "username": "admin",
+  "password": "admin@admin"
+}
+
+###
+GET https://virtualsoft.dev.br/api/users
+Authorization: token {{login.response.body.token}}
