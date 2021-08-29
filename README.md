@@ -1,34 +1,45 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Introdução
 
-## Getting Started
+Descrição das tecnologias usadas e expectativas
 
-First, run the development server:
+Usamos tecnologias padrão de frontend: Javascript (com Typescript), HTML e CSS.
 
-```bash
-npm run dev
-# or
-yarn dev
-```
+Para facilitar o trabalho, usamos o framework [Nextjs](https://nextjs.org/), em cima da biblioteca [Reactjs](https://reactjs.org/). Além deles, o projeto conta com várias outras bibliotecas, como: [axios](https://axios-http.com/), [react-query](https://react-query.tanstack.com/), [tailwindcss](https://tailwindcss.com/), [chartjs](https://www.chartjs.org/), [React Hook Form](https://react-hook-form.com/), [daisyui](https://daisyui.com/), [Jest](https://jestjs.io/), [cypress](https://www.cypress.io/), entre outras.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Para facilitar a organização e o desenvolvimento, foi escolhido o [Prettier](https://prettier.io/) para formatar o código e o [Husky](https://github.com/typicode/husky) com [lint-staged](https://github.com/okonet/lint-staged) no [git](https://git-scm.com/) para que isso aconteça automaticamente ao tentar enviar um PR/Code Review. Além disso, o [ESLint](https://eslint.org/) foi escolhido para resolver problemas corriqueiros nessa etapa, assim como o [Typescript](https://www.typescriptlang.org/). Com isso o desenvolvedor pode programar na IDE que achar mais interessante.
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Recomendamos o [VSCode](https://code.visualstudio.com/) como IDE.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+Os testes estáticos ficam por conta do Typescript, que já faz isso nativamente e com configuração estrita `{ strict: true }`. Os testes integrados, com Jest. Já os testes end to end (e2e), se possível, serão feitos com cypress.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+# Requerimentos
 
-## Learn More
+Para rodar o projeto localmente você precisa desses itens:
 
-To learn more about Next.js, take a look at the following resources:
+- [Nodejs](https://nodejs.org/en/), versão 14+ (última LTS). É possível que rode em versões menores, mas não testamos.
+- [Git](https://git-scm.com/), para clonar o projeto
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### Recomendável
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+- Se estiver no Windows 10: [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10) e [Windows Terminal](https://www.microsoft.com/pt-br/p/windows-terminal/9n0dx20hk701) - atenção, WSL é a versão 2!
+- Instale o Ubuntu 20.04 no WSL2 e atualize `sudo apt update && sudo apt upgrade`
+- Instale o git se já não tiver `sudo apt install git`
+- Instale o [nvm](https://github.com/nvm-sh/nvm): `curl -o- [https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh](https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh) | bash`
+- Instale o node lts via nvm: `nvm install --lts` e atualize o npm `npm install -g npm`
 
-## Deploy on Vercel
+# Instalação
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Clone o projeto (repo: [https://github.com/impacta-virtualsoft/ope2-front](https://github.com/impacta-virtualsoft/ope2-front))
+- Instale as dependências `npm install`
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+# Rodando o projeto localmente
+
+Para rodar localmente, basta executar o comando `npm run dev`
+
+Abra o navegador e acesse a url [http://localhost:3333](http://localhost:3333)
+
+Toda alteração que fizer reflete na hora.
+
+# Publicação
+
+A ser escrito
