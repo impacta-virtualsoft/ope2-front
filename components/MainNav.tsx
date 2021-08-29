@@ -17,7 +17,7 @@ type MainNavType = {
 }
 function MainNav({ navMain, navUser }: MainNavType) {
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav" className="bg-gray-800 dark:bg-primary">
       {({ open }) => (
         <>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -66,7 +66,7 @@ function MainNav({ navMain, navUser }: MainNavType) {
                 <ActiveLink
                   key={item.label}
                   href={item.href}
-                  className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                  className="text-gray-300 hover:bg-gray-700 hover:text-white dark:text-gray-900 dark:hover:bg-black dark:hover:text-white block px-3 py-2 rounded-md text-base font-medium"
                 >
                   {item.label}
                 </ActiveLink>

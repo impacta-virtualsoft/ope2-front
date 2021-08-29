@@ -24,8 +24,9 @@ function MyApp({ Component, pageProps }: AppPropsWithLayout) {
       <Component {...pageProps} />
     </Layout>
   )
+
   return (
-    <ThemeProvider attribute="class">
+    <ThemeProvider attribute="class" defaultTheme="system">
       <QueryClientProvider client={queryClient}>
         <Hydrate state={pageProps.dehydratedState}>
           <Provider>{getLayout}</Provider>

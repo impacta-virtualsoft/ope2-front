@@ -25,7 +25,7 @@ const GridWithChart = ({
   return (
     <Link href={href}>
       <a
-        className={`p-6 text-left color no-underline rounded-lg transition ease-in duration-200 w-1/${perRow}`}
+        className={`m-6 p-6 border dark:border-gray-800 text-left color no-underline rounded-lg transition ease-in duration-200 w-home-three`}
         {...rest}
       >
         {title ? <h2>{title} &rarr;</h2> : null}
@@ -41,24 +41,29 @@ const Home = () => {
   const [options, setOptions] = React.useState(Options())
   const [data, setData] = React.useState(Data())
 
-  const toggleTheme = () => {
+  function toggleTheme() {
     const newTheme = theme === 'dark' ? 'light' : 'dark'
     setTheme(newTheme)
   }
 
   React.useEffect(() => {
-    const isDarkMode = theme === 'dark'
-    setOptions(Options(isDarkMode))
-    setData(Data(isDarkMode))
+    const isDarkTheme =
+      localStorage.theme !== 'light' ||
+      (!('theme' in localStorage) &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches)
+
+    // localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light')
+    setOptions(Options(isDarkTheme))
+    setData(Data(isDarkTheme))
   }, [theme])
 
   return (
     <>
       <main>
+        <button onClick={toggleTheme} type="button">
+          Tema
+        </button>
         <div className="flex items-center justify-center flex-wrap">
-          <button onClick={toggleTheme} type="button">
-            Tema
-          </button>
           <GridWithChart
             title="Produtos"
             href="/produtos"

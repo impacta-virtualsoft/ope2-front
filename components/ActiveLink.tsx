@@ -17,7 +17,8 @@ const ActiveLink = ({
   const { asPath } = useRouter()
   const active = className + ' bg-gray-900 text-white'
   const inactive =
-    className + ' text-gray-300 hover:bg-gray-700 hover:text-white'
+    className +
+    ' text-gray-300 hover:bg-gray-700 hover:text-white dark:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white'
 
   return (
     <Link href={href}>
