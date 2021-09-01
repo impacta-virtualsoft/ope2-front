@@ -47,10 +47,10 @@ const Home = () => {
   }
 
   React.useEffect(() => {
-    const isDarkTheme =
-      localStorage.theme !== 'light' ||
-      (!('theme' in localStorage) &&
-        window.matchMedia('(prefers-color-scheme: dark)').matches)
+    const isDarkTheme = false
+    // localStorage.theme !== 'light' ||
+    // (!('theme' in localStorage) &&
+    //   window.matchMedia('(prefers-color-scheme: dark)').matches)
 
     // localStorage.setItem('theme', isDarkTheme ? 'dark' : 'light')
     setOptions(Options(isDarkTheme))
