@@ -1,5 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Login = () => {
   return (
@@ -15,16 +16,10 @@ const Login = () => {
             />
           </div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Entre na sua conta
+            Esqueci a senha
           </h2>
-          <p className="hidden mt-2 text-center text-sm text-gray-600">
-            Or{' '}
-            <a
-              href="#"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              start your 14-day free trial
-            </a>
+          <p className="mt-2 text-center text-sm text-gray-600">
+            Entre com o email cadastrado que enviaremos a senha para ele
           </p>
         </div>
         <form className="mt-8 space-y-6" action="#" method="POST">
@@ -40,49 +35,9 @@ const Login = () => {
                 type="email"
                 autoComplete="email"
                 required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
+                className="appearance-none rounded relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
                 placeholder="Email"
               />
-            </div>
-            <div>
-              <label htmlFor="password" className="sr-only">
-                Senha
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                autoComplete="current-password"
-                required
-                className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                placeholder="Senha"
-              />
-            </div>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <input
-                id="remember-me"
-                name="remember-me"
-                type="checkbox"
-                className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
-              />
-              <label
-                htmlFor="remember-me"
-                className="ml-2 block text-sm text-gray-900"
-              >
-                Me lembra
-              </label>
-            </div>
-
-            <div className="text-sm">
-              <a
-                href="#"
-                className="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                Esqueceu sua senha?
-              </a>
             </div>
           </div>
 
@@ -97,8 +52,17 @@ const Login = () => {
                   aria-hidden="true"
                 />
               </span>
-              Entrar
+              Enviar Senha
             </button>
+          </div>
+          <div className="flex items-center justify-between">
+            <div className="text-sm">
+              <Link href="/auth/entrar">
+                <a className="font-medium text-indigo-600 hover:text-indigo-500">
+                  &lt; Voltar para a entrada
+                </a>
+              </Link>
+            </div>
           </div>
         </form>
       </div>
