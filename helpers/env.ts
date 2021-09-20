@@ -1,0 +1,5 @@
+const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+const API_URL = process.env.NEXT_PUBLIC_API_URL
+const LOGIN_PATH = process.env.NEXT_PUBLIC_LOGIN_PATH
+
+export { BACKEND_URL, API_URL, LOGIN_PATH }

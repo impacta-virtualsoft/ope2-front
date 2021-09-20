@@ -12,6 +12,7 @@
     "@headlessui/react": "^1.4.0",
     "@heroicons/react": "^1.0.3",
     "@kurkle/color": "^0.1.9",
+    "@next-auth/react-query": "^0.0.12",
     "@svgr/webpack": "^5.5.0",
     "@tailwindcss/forms": "^0.3.3",
     "@tailwindcss/typography": "^0.4.1",
@@ -22,6 +23,7 @@
     "daisyui": "^1.13.2",
     "fuse.js": "^6.4.6",
     "next": "^11.1.2",
+    "next-auth": "^4.0.0-next.26",
     "next-themes": "^0.0.15",
     "react": "17.0.2",
     "react-chartjs-2": "^3.0.4",
@@ -40,6 +42,6 @@
     "postcss": "^8.3.6",
     "prettier-plugin-organize-imports": "^2.3.3",
     "tailwindcss": "^2.2.7",
-    "typescript": "4.3"
+    "typescript": "^4.4.3"
   }
 }

@@ -2,10 +2,14 @@ import React from 'react'
 import { useQuery } from 'react-query'
 
 export type User = {
-  name: string
+  name?: string
+  username: string
+  email: string
+  password: string
+  groups?: any[]
 }
 function assertIsUser(user: any): asserts user is User {
-  if (!('name' in user)) {
+  if (!('email' in user) || !('username' in user)) {
     throw new Error('Not user')
   }
 }
@@ -25,18 +29,20 @@ async function getUser(params: Params) {
   return user
 }
 
-type AppDataType = {
-  user: User | null
+type UserContextType = {
+  user?: User | null
 }
-const Context = React.createContext<AppDataType | {}>({})
+const UserContext = React.createContext<UserContextType>(undefined!)
 
-export function Provider({ children }: { children: React.ReactNode }) {
+export function UserProvider({ children }: { children: React.ReactNode }) {
   const { data: user } = useQuery<User, Error>(
     ['user', { id: 1 }],
     getUser as any
   )
 
-  return <Context.Provider value={{ user }}>{children}</Context.Provider>
+  return (
+    <UserContext.Provider value={{ user }}>{children}</UserContext.Provider>
+  )
 }
 
-export const useData = () => React.useContext(Context)
+export const useData = () => React.useContext(UserContext)
