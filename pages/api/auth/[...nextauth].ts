@@ -2,8 +2,7 @@ import jwt_decode from 'jwt-decode'
 import NextAuth from 'next-auth'
 import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { getToken as serviceGetToken } from '~/service/token'
-import { getUser as serviceGetUser } from '~/service/user'
+import { getLoginToken, getLoginUser } from '~/service/login'
 
 type CredentialsType = {
   email: string
@@ -38,8 +37,8 @@ export default NextAuth({
         // console.log('==> authorize:')
         // console.log({ credentials })
 
-        const login = await serviceGetToken(credentials as CredentialsType)
-        const user = await serviceGetUser(login?.data)
+        const login = await getLoginToken(credentials as CredentialsType)
+        const user = await getLoginUser(login?.data)
         const response = {
           id: user?.id,
           email: user?.email,
