@@ -1,7 +1,7 @@
 import jwtDecode from 'jwt-decode'
 import { API_REQUEST_HEADERS } from '~/helpers/constants'
 import { API_URL, BACKEND_URL, LOGIN_PATH, USER_PATH } from '~/helpers/env'
-import { publicService } from '~/service'
+import { service } from '~/service'
 
 const LOGIN_URL = BACKEND_URL! + LOGIN_PATH!
 const USERS_URL = API_URL! + USER_PATH
@@ -13,7 +13,7 @@ type GetTokenType = {
 async function getLoginToken(data: GetTokenType) {
   const config = { headers: API_REQUEST_HEADERS }
   try {
-    const req = await publicService.post(LOGIN_URL, data, config)
+    const req = await service.post(LOGIN_URL, data, config)
     return req
   } catch (err) {
     console.error(err)
@@ -26,7 +26,7 @@ type GetUserType = {
 async function getLoginUser({ token }: GetUserType) {
   try {
     const decodedToken: DecodedTokenType = jwtDecode(token)
-    const res = await publicService({
+    const res = await service({
       method: 'GET',
       url: USERS_URL + decodedToken.user_id,
       headers: {

@@ -3,21 +3,33 @@ import { getSession } from 'next-auth/react'
 import { API_REQUEST_HEADERS } from '~/helpers/constants'
 import { BACKEND_URL } from '~/helpers/env'
 
-const makeToken = async () => {
-  const session = await getSession()
-  return session?.accessToken
-}
-const publicService = axios.create({
-  baseURL: BACKEND_URL,
-  timeout: 5000,
-})
 const service = axios.create({
   baseURL: BACKEND_URL,
   timeout: 5000,
-  headers: {
-    ...API_REQUEST_HEADERS,
-    Authorization: 'jwt ' + makeToken(),
-  },
+  headers: API_REQUEST_HEADERS,
 })
 
-export { publicService, service }
+// Add a request interceptor
+service.interceptors.request.use(
+  async (config) => {
+    // Do something before request is sent
+    const session = await getSession()
+    if (session) {
+      console.log('==> interceptor')
+      console.log({ session })
+      console.log({ config })
+      console.log('==> FIM DO interceptor')
+      config.headers = {
+        ...config.headers,
+        Authorization: 'jwt ' + session.accessToken,
+      }
+    }
+    return config
+  },
+  function (error) {
+    // Do something with request error
+    return Promise.reject(error)
+  }
+)
+
+export { service }
