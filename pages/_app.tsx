@@ -1,6 +1,6 @@
-// import { useSession } from '@next-auth/react-query'
+import { useSession } from '@next-auth/react-query'
 import { NextPage } from 'next'
-import { SessionProvider, signIn, useSession } from 'next-auth/react'
+import { SessionProvider, signIn } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
@@ -65,15 +65,19 @@ function App({
 }
 
 function Auth({ children }: GenericChildren): any {
-  const { data: session, status } = useSession()
+  // const { data: session, status } = useSession()
+  const [session, loading] = useSession()
   const isUser = !!session?.user
 
   React.useEffect(() => {
     console.log({ session })
-    console.log({ status })
-    if (status === 'loading') return // Do nothing while loading
+    // console.log({ status })
+    console.log({ loading })
+    // if (status === 'loading') return // Do nothing while loading
+    if (loading) return // Do nothing while loading
     if (!isUser) signIn() // If not authenticated, force log in
-  }, [isUser, session, status])
+    // }, [isUser, session, status])
+  }, [isUser, session, loading])
 
   if (isUser) {
     return children
