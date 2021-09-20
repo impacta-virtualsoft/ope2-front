@@ -1,1 +1,2 @@
-type GenericChildren = { children: React.ReactNode }
+declare type GenericObject<T> = { [key: string]: T }
+declare type ChildrenType = { children: React.ReactNode }

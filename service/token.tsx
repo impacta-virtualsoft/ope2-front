@@ -4,11 +4,11 @@ import service from '~/service'
 
 const LOGIN_URL = BACKEND_URL! + LOGIN_PATH!
 
-type LoginDataType = {
-  username: string
+type GetTokenType = {
+  email: string
   password: string
 }
-async function login(data: LoginDataType) {
+async function getToken(data: GetTokenType) {
   console.log({ LOGIN_URL })
   const config = { headers: API_REQUEST_HEADERS }
   try {
@@ -19,4 +19,4 @@ async function login(data: LoginDataType) {
   }
 }
 
-export default login
+export { getToken }

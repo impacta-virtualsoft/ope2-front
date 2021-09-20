@@ -1,9 +1,11 @@
+import jwt_decode from 'jwt-decode'
 import NextAuth from 'next-auth'
+import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import login from '~/service/login'
+import { getToken as serviceGetToken } from '~/service/token'
 
 type CredentialsType = {
-  username: string
+  email: string
   password: string
 }
 export default NextAuth({
@@ -18,7 +20,11 @@ export default NextAuth({
       // You can specify whatever fields you are expecting to be submitted.
       // e.g. domain, username, password, 2FA token, etc.
       credentials: {
-        username: { label: 'Username', type: 'text', placeholder: 'admin' },
+        email: {
+          label: 'Email',
+          type: 'email',
+          placeholder: 'admin@virtualsoft.dev.br',
+        },
         password: { label: 'Password', type: 'password' },
       },
       async authorize(credentials /* , req */) {
@@ -28,25 +34,16 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        console.log('==> credentials:')
+        console.log('==> authorize:')
         console.log({ credentials })
 
-        const user = await login(credentials as CredentialsType)
+        const login = await serviceGetToken(credentials as CredentialsType)
+        // const user = await serviceGetUser(login?.data)
+        const user = login
 
-        // const res = await fetch('https://virtualsoft.dev.br/login/', {
-        //   method: 'POST',
-        //   body: JSON.stringify(credentials),
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //     corsOrigin: '*',
-        //     'Access-Control-Allow-Origin': '*',
-        //   },
-        // })
-        // console.log({ res })
-        // const user = await res.json()
+        console.log({ 'user.data': user?.data })
 
-        console.log('==> user:')
-        console.log({ user })
+        console.log('==> fim do authorize')
 
         // If no error and we have user data, return it
         if (user && user.status < 300) {
@@ -57,4 +54,40 @@ export default NextAuth({
       },
     }),
   ],
+  callbacks: {
+    async session({ session, token, user }) {
+      if (token) {
+        session.accessToken = token.accessToken
+      }
+      console.log('==> SESSION')
+      console.log({ session })
+      console.log({ token })
+      console.log({ user })
+      console.log('==> FIM DO SESSION')
+      return session
+    },
+    async jwt({ token, user, account, profile, isNewUser }) {
+      console.log('==> JWT')
+      console.log({ token })
+
+      if (user) {
+        const newToken = user.token as JWT
+        const decodedToken: GenericObject<any> = jwt_decode(
+          user.token as string
+        )
+        token.accessToken = newToken
+        token.email = decodedToken.email
+        token.user_id = decodedToken.user_id
+      }
+      console.log('após alteração')
+      console.log({ token })
+      console.log({ user })
+      console.log({ account })
+      console.log({ profile })
+      console.log({ isNewUser })
+      console.log('==> FIM DO JWT')
+
+      return token
+    },
+  },
 })

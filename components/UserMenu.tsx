@@ -9,7 +9,7 @@ import ActiveLink from './ActiveLink'
 type UserMenuType = {
   navUser: {
     label: string
-    href: string
+    href: string | (() => void)
   }[]
   responsive?: boolean
 }
@@ -40,15 +40,25 @@ const UserMenu = ({ navUser, responsive = false }: UserMenuType) => {
           </button>
         </div>
         <div className="mt-3 px-2 space-y-1">
-          {navUser.map((item) => (
-            <ActiveLink
-              key={item.label}
-              href={item.href}
-              className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-            >
-              {item.label}
-            </ActiveLink>
-          ))}
+          {navUser.map((item) =>
+            typeof item.href === 'string' ? (
+              <ActiveLink
+                key={item.label}
+                href={item.href}
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+              >
+                {item.label}
+              </ActiveLink>
+            ) : (
+              <ActiveLink
+                key={item.label}
+                onClick={item.href}
+                className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+              >
+                {item.label}
+              </ActiveLink>
+            )
+          )}
         </div>
       </div>
     )
@@ -85,18 +95,30 @@ const UserMenu = ({ navUser, responsive = false }: UserMenuType) => {
             <Menu.Items className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none">
               {navUser.map((item) => (
                 <Menu.Item key={item.label}>
-                  {({ active }) => (
-                    <Link href={item.href}>
+                  {({ active }) => {
+                    return typeof item.href === 'string' ? (
+                      <Link href={item.href}>
+                        <a
+                          className={joinClasses(
+                            active ? 'bg-gray-100' : '',
+                            'block px-4 py-2 text-sm text-gray-700'
+                          )}
+                        >
+                          {item.label}
+                        </a>
+                      </Link>
+                    ) : (
                       <a
                         className={joinClasses(
                           active ? 'bg-gray-100' : '',
-                          'block px-4 py-2 text-sm text-gray-700'
+                          'block px-4 py-2 text-sm text-gray-700 cursor-pointer'
                         )}
+                        onClick={item.href}
                       >
                         {item.label}
                       </a>
-                    </Link>
-                  )}
+                    )
+                  }}
                 </Menu.Item>
               ))}
             </Menu.Items>

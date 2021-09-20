@@ -1,7 +1,8 @@
 import axios from 'axios'
+import { BACKEND_URL } from '~/helpers/env'
 
 const service = axios.create({
-  baseURL: 'https://virtualsoft.dev.br',
+  baseURL: BACKEND_URL,
   timeout: 5000,
 })
 

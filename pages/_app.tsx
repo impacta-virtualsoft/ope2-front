@@ -1,4 +1,3 @@
-import { useSession } from '@next-auth/react-query'
 import { NextPage } from 'next'
 import { SessionProvider, signIn } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
@@ -9,6 +8,7 @@ import { QueryClient, QueryClientProvider } from 'react-query'
 import { Hydrate } from 'react-query/hydration'
 import 'tailwindcss/tailwind.css'
 import Layout from '~/components/Layout'
+import { useSession } from '~/helpers/react-query'
 // import { UserProvider } from '~/service/UserProvider'
 
 type AppPropsWithLayout = AppProps & {
@@ -47,7 +47,7 @@ function App({
     </Layout>
   )
   // Usa Auth se a propriedade isPublic for habilitada (default: false)
-  const AuthComponent = ({ children }: GenericChildren) => (
+  const AuthComponent = ({ children }: ChildrenType) => (
     <SessionProvider session={session}>
       {Component.isPublic ? children : <Auth>{children}</Auth>}
     </SessionProvider>
@@ -64,7 +64,7 @@ function App({
   )
 }
 
-function Auth({ children }: GenericChildren): any {
+function Auth({ children }: ChildrenType): any {
   // const { data: session, status } = useSession()
   const [session, loading] = useSession()
   const isUser = !!session?.user
