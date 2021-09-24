@@ -5,14 +5,14 @@ import React from 'react'
 import ActiveLink from './ActiveLink'
 import UserMenu from './UserMenu'
 
-type MainNavType = {
+export type MainNavType = {
   navMain: {
     label: string
     href: string
   }[]
   navUser: {
     label: string
-    href: string
+    href: string | (() => void)
   }[]
 }
 function MainNav({ navMain, navUser }: MainNavType) {

@@ -22,6 +22,7 @@
     "daisyui": "^1.13.2",
     "fuse.js": "^6.4.6",
     "next": "^11.1.2",
+    "next-auth": "^4.0.0-next.26",
     "next-themes": "^0.0.15",
     "react": "17.0.2",
     "react-chartjs-2": "^3.0.4",
@@ -37,9 +38,10 @@
     "autoprefixer": "^10.3.1",
     "eslint": "7.32.0",
     "eslint-config-next": "^11.1.2",
+    "jwt-decode": "^3.1.2",
     "postcss": "^8.3.6",
     "prettier-plugin-organize-imports": "^2.3.3",
     "tailwindcss": "^2.2.7",
-    "typescript": "4.3"
+    "typescript": "^4.4.3"
   }
 }

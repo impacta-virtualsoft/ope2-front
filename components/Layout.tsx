@@ -1,3 +1,4 @@
+import { signOut } from 'next-auth/react'
 import React from 'react'
 import Header from './Header'
 import MainNav from './MainNav'
@@ -9,6 +10,7 @@ const navMain = [
   { label: 'Pedidos', href: '/pedidos' },
   { label: 'Clientes', href: '/clientes' },
   { label: 'Relatórios', href: '/relatorios' },
+  { label: 'Usuários', href: '/usuarios' },
 ]
 const navUser = [
   {
@@ -21,7 +23,9 @@ const navUser = [
   },
   {
     label: 'Sair',
-    href: '/logout',
+    href() {
+      signOut()
+    },
   },
 ]
 
