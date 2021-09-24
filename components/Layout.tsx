@@ -10,6 +10,7 @@ const navMain = [
   { label: 'Pedidos', href: '/pedidos' },
   { label: 'Clientes', href: '/clientes' },
   { label: 'Relatórios', href: '/relatorios' },
+  { label: 'Usuários', href: '/usuarios' },
 ]
 const navUser = [
   {

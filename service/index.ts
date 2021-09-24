@@ -15,10 +15,10 @@ service.interceptors.request.use(
     // Do something before request is sent
     const session = await getSession()
     if (session) {
-      console.log('==> interceptor')
-      console.log({ session })
-      console.log({ config })
-      console.log('==> FIM DO interceptor')
+      // console.log('==> interceptor')
+      // console.log({ session })
+      // console.log({ config })
+      // console.log('==> FIM DO interceptor')
       config.headers = {
         ...config.headers,
         Authorization: 'jwt ' + session.accessToken,

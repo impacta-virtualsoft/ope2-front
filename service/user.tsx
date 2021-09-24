@@ -6,10 +6,10 @@ const USERS_URL = API_URL! + USER_PATH
 async function getUsers() {
   try {
     const res = await service(USERS_URL)
-    console.log({ res })
     return res.data
   } catch (err) {
     console.error(err)
+    throw new Error(JSON.stringify(err))
   }
 }
 
