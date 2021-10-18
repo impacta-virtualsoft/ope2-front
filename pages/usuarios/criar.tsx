@@ -38,7 +38,7 @@ const CreateUser = () => {
           </div>
           <div className="mt-5 md:mt-0 md:col-span-2">
             <form action="#" method="POST">
-              <div className="shadow sm:rounded-md sm:overflow-hidden">
+              <div className="shadow sm:rounded-md">
                 <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
                   <div className="grid grid-cols-3 gap-6">
                     <div className="col-span-3 sm:col-span-3">
@@ -116,7 +116,7 @@ const CreateUser = () => {
                         options={groupOptions}
                         onChange={setSelectedGroup}
                         defaultValue={selectedGroup}
-                        className="focus:ring-0 flex-1 block w-full rounded sm:text-sm border-gray-300"
+                        className="no-ring focus:ring-transparent focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
                         id="recipe"
                         name="recipe"
                       />

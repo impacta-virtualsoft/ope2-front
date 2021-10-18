@@ -1,14 +1,16 @@
 import { NextPage } from 'next'
-import { SessionProvider, signIn } from 'next-auth/react'
+import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
 import * as React from 'react'
+import { Toaster } from 'react-hot-toast'
 import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 import { Hydrate } from 'react-query/hydration'
-import 'tailwindcss/tailwind.css'
+import Auth from '~/components/Auth'
 import Layout from '~/components/Layout'
-import { useSession } from '~/helpers/react-query'
+import '~/styles/globals.css'
 // import { UserProvider } from '~/service/UserProvider'
 
 type AppPropsWithLayout = AppProps & {
@@ -57,35 +59,13 @@ function App({
     <ThemeProvider attribute="class" defaultTheme="light">
       <QueryClientProvider client={queryClient}>
         <Hydrate state={dehydratedState}>
+          <Toaster />
           <AuthComponent>{getLayout}</AuthComponent>
+          <ReactQueryDevtools initialIsOpen={false} />
         </Hydrate>
       </QueryClientProvider>
     </ThemeProvider>
   )
-}
-
-function Auth({ children }: ChildrenType): any {
-  // const { data: session, status } = useSession()
-  const [session, loading] = useSession()
-  const isUser = !!session?.user
-
-  React.useEffect(() => {
-    console.log({ session })
-    // console.log({ status })
-    console.log({ loading })
-    // if (status === 'loading') return // Do nothing while loading
-    if (loading) return // Do nothing while loading
-    if (!isUser) signIn() // If not authenticated, force log in
-    // }, [isUser, session, status])
-  }, [isUser, session, loading])
-
-  if (isUser) {
-    return children
-  }
-
-  // Session is being fetched, or no user.
-  // If no user, useEffect() will redirect.
-  return <div>Loading...</div>
 }
 
 export default App

@@ -1,11 +1,11 @@
 import axios from 'axios'
 import { getSession } from 'next-auth/react'
 import { API_REQUEST_HEADERS } from '~/helpers/constants'
-import { BACKEND_URL } from '~/helpers/env'
+import { BACKEND_URL } from '~/helpers/envs'
 
 const service = axios.create({
   baseURL: BACKEND_URL,
-  timeout: 5000,
+  timeout: 1000,
   headers: API_REQUEST_HEADERS,
 })
 
@@ -21,7 +21,7 @@ service.interceptors.request.use(
       // console.log('==> FIM DO interceptor')
       config.headers = {
         ...config.headers,
-        Authorization: 'jwt ' + session.accessToken,
+        Authorization: 'Bearer ' + session.accessToken,
       }
     }
     return config

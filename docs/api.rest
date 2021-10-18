@@ -1,0 +1,33 @@
+
+# @name login
+POST https://virtualsoft.dev.br/login
+Content-Type: application/json
+
+{
+  "email": "frontend@virtualsoft.dev.br",
+  "password": "frontend@frontend"
+}
+
+// Response:
+// { access: string, refresh: string }
+
+###
+# @name refresh
+POST https://virtualsoft.dev.br/refresh-token/
+Content-Type: application/json
+
+{
+  "refresh": "{{ login.response.body.refresh }}"
+}
+
+# {
+#   "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoxLCJ1c2VybmFtZSI6ImFkbWluIiwiZXhwIjoxNjMxODE4NDcxLCJlbWFpbCI6ImFkbWluQHZpcnR1YWxzb2Z0LmNvbS5iciIsIm9yaWdfaWF0IjoxNjMxODE0ODcxfQ.Ojc0f4WOYtZeZ3PHX8U-EOUofnQmwzrk5x3C29eipkY"
+# }
+
+###
+GET https://virtualsoft.dev.br/api/users
+Authorization: Bearer {{ login.response.body.access }}
+
+###
+GET https://virtualsoft.dev.br/api/users/1
+Authorization: Bearer {{ login.response.body.access }}

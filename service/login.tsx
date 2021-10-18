@@ -1,43 +1,83 @@
+import { AxiosResponse } from 'axios'
 import jwtDecode from 'jwt-decode'
-import { API_REQUEST_HEADERS } from '~/helpers/constants'
-import { API_URL, BACKEND_URL, LOGIN_PATH, USER_PATH } from '~/helpers/env'
+import { LOGIN_URL, REFRESHTOKEN_URL, USERS_URL } from '~/helpers/constants'
 import { service } from '~/service'
 
-const LOGIN_URL = BACKEND_URL! + LOGIN_PATH!
-const USERS_URL = API_URL! + USER_PATH
-
-type GetTokenType = {
-  email: string
-  password: string
+function decodeToken(token: string) {
+  const decodedToken: DecodedTokenType = jwtDecode(token)
+  return decodedToken
 }
-async function getLoginToken(data: GetTokenType) {
-  const config = { headers: API_REQUEST_HEADERS }
+
+async function getLoginToken(data: CredentialRequestType) {
+  const config = {} /*{ headers: API_REQUEST_HEADERS }*/
   try {
     const req = await service.post(LOGIN_URL, data, config)
-    return req
+    return req.data as TokenType
   } catch (err) {
-    console.error(err)
+    console.error('Erro em getLoginToken')
+    throw new Error()
   }
 }
 
-type GetUserType = {
-  token: string
-}
-async function getLoginUser({ token }: GetUserType) {
+async function getLoginUser({ access }: TokenType) {
   try {
-    const decodedToken: DecodedTokenType = jwtDecode(token)
-    const res = await service({
+    const decodedToken = decodeToken(access)
+    const req = await service({
       method: 'GET',
-      url: USERS_URL + decodedToken.user_id,
+      url: `${USERS_URL}/${decodedToken.user_id}`,
       headers: {
-        ...API_REQUEST_HEADERS,
-        Authorization: 'jwt ' + token,
+        // ...API_REQUEST_HEADERS,
+        Authorization: 'Bearer ' + access,
       },
     })
-    return res.data as UserType
+    return req.data as UserType
   } catch (err) {
-    console.error(err)
+    console.error('Erro em getLoginUser')
+    throw new Error()
   }
 }
 
-export { getLoginToken, getLoginUser }
+/**
+ * Takes a token, and returns a new token with updated
+ * `accessToken` and `accessTokenExpires`. If an error occurs,
+ * returns the old token and an error property
+ */
+async function refreshAccessToken(token: GenericObject<unknown>) {
+  try {
+    // console.log('==> REFRESH TOKEN')
+    const config = {}
+    const data = { refresh: token.refreshToken }
+    // console.log({ token })
+    // console.log({ data })
+    const getRefreshToken: AxiosResponse<
+      Pick<TokenType, 'access'>,
+      any
+    > = await service.post(REFRESHTOKEN_URL, data, config)
+    const refreshedToken = getRefreshToken.data
+    const decodedRefreshedToken = decodeToken(refreshedToken.access)
+
+    const accessToken = refreshedToken.access ?? token.accessToken
+    const accessTokenExpires = decodedRefreshedToken.exp * 1000
+
+    const response = {
+      ...token,
+      accessToken,
+      accessTokenExpires,
+    }
+
+    // console.log('==> refreshAccessToken ')
+    // console.log({ response })
+    // console.log('===========================')
+
+    return response
+  } catch (error) {
+    console.log('Erro em refreshAccessToken')
+
+    return {
+      ...token,
+      error: 'RefreshAccessTokenError',
+    }
+  }
+}
+
+export { decodeToken, getLoginToken, getLoginUser, refreshAccessToken }

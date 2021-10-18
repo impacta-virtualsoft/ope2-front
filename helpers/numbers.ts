@@ -9,4 +9,13 @@ function round(num: number, decimalPlaces: number = 2): number {
   return Math.round(powedNumber) / pow
 }
 
-export { round }
+function calculateTokenExpiration(hasTick: boolean, tick: number) {
+  const almostAnHourFromNow = new Date(Date.now() + 1 * (60 * 59 * 1000))
+  const accessTokenExpires = hasTick
+    ? new Date(tick * 1000)
+    : almostAnHourFromNow
+
+  return accessTokenExpires
+}
+
+export { round, calculateTokenExpiration }

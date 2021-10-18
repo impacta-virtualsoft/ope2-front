@@ -1,13 +1,13 @@
-import jwt_decode from 'jwt-decode'
 import NextAuth from 'next-auth'
-import { JWT } from 'next-auth/jwt'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { getLoginToken, getLoginUser } from '~/service/login'
+import { DATE_UNTIL_TOKEN_EXPIRES } from '~/helpers/constants'
+import {
+  decodeToken,
+  getLoginToken,
+  getLoginUser,
+  refreshAccessToken,
+} from '~/service/login'
 
-type CredentialsType = {
-  email: string
-  password: string
-}
 export default NextAuth({
   pages: {
     signIn: '/auth/entrar',
@@ -37,20 +37,31 @@ export default NextAuth({
         // console.log('==> authorize:')
         // console.log({ credentials })
 
-        const login = await getLoginToken(credentials as CredentialsType)
-        const user = await getLoginUser(login?.data)
-        const response = {
-          id: user?.id,
-          email: user?.email,
-          token: login?.data.token,
-          accessToken: login?.data.token,
-        }
+        try {
+          const login = await getLoginToken(
+            credentials as CredentialRequestType
+          )
+          const user = await getLoginUser(login!)
+          const decodedToken = decodeToken(login!.access)
+          const accessTokenExpires = decodedToken.exp * 1000
 
-        // console.log('==> fim do authorize')
+          const response = {
+            id: user?.id,
+            email: user?.email,
+            token: login?.access,
+            accessToken: login?.access,
+            accessTokenExpires,
+            refreshToken: login?.refresh,
+          }
+          // console.log({ response })
+          // console.log('==> fim do authorize')
 
-        // If no error and we have user data, return it
-        if (login && login.status < 300 && user && user.id) {
-          return response
+          // If no error and we have user data, return it
+          if (login && user && user.id) {
+            return response
+          }
+        } catch (err) {
+          console.log(err)
         }
         // Return null if user data could not be retrieved
         return null
@@ -61,6 +72,7 @@ export default NextAuth({
     async session({ session, token, user }) {
       if (token) {
         session.accessToken = token.accessToken
+        session.expires = token.accessTokenExpires as string
       }
       // console.log('==> SESSION')
       // console.log({ session })
@@ -70,25 +82,38 @@ export default NextAuth({
       return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {
+      // !!! Important !!!
+      // Only "token" param exists after first login
+      // user, account, profile and isNewUser params are available only at first login time
+      // persist any data from those other into token at login time!
       // console.log('==> JWT')
       // console.log({ token })
-      if (user) {
-        const newToken = user.token as JWT
-        const decodedToken: GenericObject<any> = jwt_decode(
-          user.token as string
-        )
-        token.accessToken = newToken
-        token.email = decodedToken.email
-        token.user_id = decodedToken.user_id
+      // console.log({ user })
+
+      // Runs only once the user logs in
+      if (account && user) {
+        token = {
+          ...token,
+          accessToken: user.accessToken,
+          accessTokenExpires: user.accessTokenExpires,
+          refreshToken: user.refreshToken,
+        }
+        // console.log('após alteração')
+        // console.log({ token })
       }
-      // console.log('após alteração')
-      // console.log({ token })
+
+      if (DATE_UNTIL_TOKEN_EXPIRES > (token as any).accessTokenExpires) {
+        const newToken = await refreshAccessToken(token)
+        // console.log('==> TOKEN EXPIROU!!!')
+        // console.log({ newToken })
+        return newToken
+      }
+
       // console.log({ user })
       // console.log({ account })
       // console.log({ profile })
       // console.log({ isNewUser })
       // console.log('==> FIM DO JWT')
-
       return token
     },
   },
