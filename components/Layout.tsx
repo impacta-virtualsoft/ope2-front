@@ -40,11 +40,11 @@ const Layout: React.FC = ({ children }) => {
       <main>
         <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
           {/* Content */}
-          <div className="px-4 py-6 sm:px-0">
-            {/* <div className="border-4 border-dashed border-gray-200 rounded-lg"> */}
-            {children}
-            {/* </div> */}
-          </div>
+          {/* <div className="px-4 py-6 sm:px-0"> */}
+          {/* <div className="border-4 border-dashed border-gray-200 rounded-lg"> */}
+          {children}
+          {/* </div> */}
+          {/* </div> */}
           {/* /End Content */}
         </div>
       </main>

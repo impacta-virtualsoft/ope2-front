@@ -1,7 +1,7 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
-import { getUsers } from '~/service/user'
+import { getUser, getUsers, GetUsersType } from '~/service/user'
 
 type UseErrorType = {
   isError: boolean
@@ -36,4 +36,10 @@ function useUsers() {
   return query
 }
 
-export { useError, useUsers }
+function useUser({ userId }: GetUsersType) {
+  const query = useQuery(['user', userId], () => getUser({ userId }))
+
+  return query
+}
+
+export { useError, useUsers, useUser }

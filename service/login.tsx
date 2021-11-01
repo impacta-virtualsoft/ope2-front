@@ -44,11 +44,8 @@ async function getLoginUser({ access }: TokenType) {
  */
 async function refreshAccessToken(token: GenericObject<unknown>) {
   try {
-    // console.log('==> REFRESH TOKEN')
     const config = {}
     const data = { refresh: token.refreshToken }
-    // console.log({ token })
-    // console.log({ data })
     const getRefreshToken: AxiosResponse<
       Pick<TokenType, 'access'>,
       any
@@ -64,10 +61,6 @@ async function refreshAccessToken(token: GenericObject<unknown>) {
       accessToken,
       accessTokenExpires,
     }
-
-    // console.log('==> refreshAccessToken ')
-    // console.log({ response })
-    // console.log('===========================')
 
     return response
   } catch (error) {

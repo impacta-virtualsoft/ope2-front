@@ -14,11 +14,10 @@ service.interceptors.request.use(
   async (config) => {
     // Do something before request is sent
     const session = await getSession()
+    console.log('==> INTERCEPTOR')
+    console.log({ session })
+    console.log({ config })
     if (session) {
-      // console.log('==> interceptor')
-      // console.log({ session })
-      // console.log({ config })
-      // console.log('==> FIM DO interceptor')
       config.headers = {
         ...config.headers,
         Authorization: 'Bearer ' + session.accessToken,
@@ -26,7 +25,7 @@ service.interceptors.request.use(
     }
     return config
   },
-  function (error) {
+  async (error) => {
     // Do something with request error
     return Promise.reject(error)
   }

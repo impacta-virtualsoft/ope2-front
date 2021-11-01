@@ -28,3 +28,13 @@ declare type UserType = {
   password: string
   groups: number[]
 }
+
+type ProductType = {
+  id: number
+  created_in: string
+  modified_in: string
+  name: string
+  description: string
+  type: number
+  unit_measure: number
+}

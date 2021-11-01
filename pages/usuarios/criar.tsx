@@ -1,5 +1,10 @@
 import * as React from 'react'
+import { Controller, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
+import { useMutation } from 'react-query'
 import Select from 'react-select'
+import { useError } from '~/helpers/hooks'
+import { createUser } from '~/service/user'
 
 const groupOptions = [
   {
@@ -21,12 +26,57 @@ const groupOptions = [
   },
 ]
 const CreateUser = () => {
-  const [selectedGroup, setSelectedGroup] = React.useState<any>(null)
+  const [selectedGroup, setSelectedGroup] = React.useState<typeof groupOptions>(
+    []
+  )
+  const { register, handleSubmit, reset, control } = useForm<UserType>({
+    mode: 'onSubmit',
+    reValidateMode: 'onChange',
+    resolver: undefined,
+    context: undefined,
+    criteriaMode: 'firstError',
+    shouldFocusError: true,
+    shouldUnregister: false,
+    delayError: undefined,
+    defaultValues: {},
+  })
+  const mutation = useMutation((userPayload) => {
+    return createUser(userPayload)
+  })
+  const { errorMessage } = useError({
+    isError: mutation.isError,
+    error: mutation.error,
+  })
+
+  function onSubmit(data) {
+    const newData = {
+      ...data,
+      groups: data.groups.map((group) => group.value),
+    }
+    console.log(newData)
+    mutation.mutate(newData)
+  }
+
+  React.useEffect(() => {
+    if (mutation.isLoading) {
+      toast.loading('Criando usuário...')
+    } else {
+      toast.dismiss()
+      if (mutation.isError) {
+        toast.error('Erro ocorreu!')
+      }
+      if (mutation.isSuccess) {
+        toast.success('Usuário criado com sucesso!')
+      }
+    }
+    // console.log(mutation)
+  }, [mutation])
+
   return (
     <>
       <div>
         <div className="md:grid md:grid-cols-3 md:gap-6">
-          <div className="md:col-span-1">
+          {/* <div className="md:col-span-1">
             <div className="px-4 sm:px-0">
               <h3 className="text-lg font-medium leading-6 text-gray-900">
                 Novo Usuário
@@ -35,48 +85,61 @@ const CreateUser = () => {
                 Cadastre as informações de um novo usuário do sistema
               </p>
             </div>
-          </div>
+          </div> */}
           <div className="mt-5 md:mt-0 md:col-span-2">
-            <form action="#" method="POST">
+            <h2 className="prose prose-xl">Criar novo usuário</h2>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="shadow sm:rounded-md">
-                <div className="px-4 py-5 bg-white space-y-6 sm:p-6">
-                  <div className="grid grid-cols-3 gap-6">
+                <div className="px-4 py-5 bg-white space-y-4">
+                  <div className="grid grid-cols-6 gap-3">
                     <div className="col-span-3 sm:col-span-3">
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-gray-700"
-                      >
-                        Nome
+                      <label htmlFor="first_name" className="label">
+                        <span className="label-text">Nome</span>
                       </label>
                       <div className="mt-1 flex rounded-md shadow-sm">
                         <input
+                          {...register('first_name')}
                           type="text"
-                          name="name"
-                          id="name"
-                          className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
-                          placeholder="José da Silva"
+                          id="first_name"
+                          className="input input-bordered flex-1 block w-full sm:text-sm"
+                          placeholder="João"
                         />
                       </div>
-                      <p className="mt-2 text-sm text-gray-500">
-                        O nome pelo qual a pessoa é conhecida
+                      <p className="label label-text-alt">
+                        O primeiro nome. Exemplo: "João"
+                      </p>
+                    </div>
+                    <div className="col-span-3 sm:col-span-3">
+                      <label htmlFor="last_name" className="label">
+                        <span className="label-text">Sobrenome</span>
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm">
+                        <input
+                          {...register('last_name')}
+                          type="text"
+                          id="last_name"
+                          className="input input-bordered flex-1 block w-full sm:text-sm"
+                          placeholder="João"
+                        />
+                      </div>
+                      <p className="label label-text-alt">
+                        Sobrenome, por exemplo: "da Silva"
                       </p>
                     </div>
                   </div>
 
                   <div className="col-span-3 sm:col-span-3">
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Email
+                    <label htmlFor="email" className="label">
+                      <span className="label-text">Email</span>
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
                       <input
+                        {...register('email')}
                         type="email"
                         name="email"
                         id="email"
-                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
-                        placeholder="jose@dasilva.com"
+                        className="input input-bordered flex-1 block w-full sm:text-sm"
+                        placeholder="joao@dasilva.com"
                       />
                     </div>
                     <p className="mt-2 text-sm text-gray-500">
@@ -84,41 +147,64 @@ const CreateUser = () => {
                     </p>
                   </div>
 
-                  <div className="col-span-3 sm:col-span-3">
-                    <label
-                      htmlFor="password"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Senha
-                    </label>
-                    <div className="mt-1 flex rounded-md shadow-sm">
-                      <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        className="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
-                      />
+                  <div className="grid grid-cols-6 gap-3">
+                    <div className="col-span-3 sm:col-span-3">
+                      <label htmlFor="password" className="label">
+                        <span className="label-text">Senha</span>
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm">
+                        <input
+                          {...register('password')}
+                          type="password"
+                          name="password"
+                          id="password"
+                          className="input input-bordered flex-1 block w-full sm:text-sm"
+                        />
+                      </div>
+                      <p className="mt-2 text-sm text-gray-500">
+                        Uma senha, que não pode ser igual seu email
+                      </p>
                     </div>
-                    <p className="mt-2 text-sm text-gray-500">
-                      Uma senha, que não pode ser igual seu email
-                    </p>
+                    <div className="col-span-3 sm:col-span-3">
+                      <label htmlFor="confirm_password" className="label">
+                        <span className="label-text">Confirme a senha</span>
+                      </label>
+                      <div className="mt-1 flex rounded-md shadow-sm">
+                        <input
+                          type="password"
+                          name="confirm_password"
+                          id="confirm_password"
+                          className="input input-bordered flex-1 block w-full sm:text-sm"
+                        />
+                      </div>
+                      <p className="mt-2 text-sm text-gray-500">
+                        Digite novamente a senha
+                      </p>
+                    </div>
                   </div>
 
                   <div>
-                    <label
-                      htmlFor="recipe"
-                      className="block text-sm font-medium text-gray-700"
-                    >
-                      Grupo
+                    <label htmlFor="recipe" className="label">
+                      <span className="label-text">Grupo</span>
                     </label>
                     <div className="mt-1 flex rounded-md shadow-sm">
-                      <Select
-                        options={groupOptions}
-                        onChange={setSelectedGroup}
-                        defaultValue={selectedGroup}
-                        className="no-ring focus:ring-transparent focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
-                        id="recipe"
-                        name="recipe"
+                      <Controller
+                        control={control}
+                        name="groups"
+                        render={({ field: { onChange, value, ref } }) => {
+                          return (
+                            <Select
+                              inputRef={ref}
+                              options={groupOptions}
+                              onChange={(val) => onChange(val)}
+                              defaultValue={selectedGroup}
+                              className="no-ring focus:ring-transparent focus:border-indigo-500 flex-1 block w-full rounded sm:text-sm border-gray-300"
+                              id="groups"
+                              name="groups"
+                              isMulti
+                            />
+                          )
+                        }}
                       />
                     </div>
                     <p className="mt-2 text-sm text-gray-500">
@@ -130,10 +216,16 @@ const CreateUser = () => {
                 </div>
                 <div className="px-4 py-3 bg-gray-50 text-right sm:px-6">
                   <button
-                    type="submit"
-                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    type="reset"
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md btn"
                   >
-                    Adicionar
+                    Apagar tudo
+                  </button>{' '}
+                  <button
+                    type="submit"
+                    className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md btn btn-primary"
+                  >
+                    Criar usuário
                   </button>
                 </div>
               </div>
