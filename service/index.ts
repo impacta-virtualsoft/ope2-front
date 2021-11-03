@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { getSession } from 'next-auth/react'
 import { API_REQUEST_HEADERS } from '~/helpers/constants'
 import { BACKEND_URL } from '~/helpers/envs'
 
@@ -13,16 +12,16 @@ const service = axios.create({
 service.interceptors.request.use(
   async (config) => {
     // Do something before request is sent
-    const session = await getSession()
+    // const session = await getSession()
     console.log('==> INTERCEPTOR')
-    console.log({ session })
+    // console.log({ session })
     console.log({ config })
-    if (session) {
-      config.headers = {
-        ...config.headers,
-        Authorization: 'Bearer ' + session.accessToken,
-      }
-    }
+    // if (session) {
+    //   config.headers = {
+    //     ...config.headers,
+    //     Authorization: 'Bearer ' + session.accessToken,
+    //   }
+    // }
     return config
   },
   async (error) => {

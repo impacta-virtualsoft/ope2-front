@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev -- -p 3333",
+    "dev": "next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
@@ -22,7 +22,6 @@
     "daisyui": "^1.13.2",
     "fuse.js": "^6.4.6",
     "next": "^12.0.0",
-    "next-auth": "^4.0.0-next.26",
     "next-themes": "^0.0.15",
     "react": "17.0.2",
     "react-chartjs-2": "^3.0.4",

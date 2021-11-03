@@ -1,13 +1,8 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
-import { NextPageContext } from 'next'
-import { getCsrfToken } from 'next-auth/react'
 import Image from 'next/image'
 import Link from 'next/link'
 
-type EntrarType = {
-  csrfToken: string
-}
-const Entrar = ({ csrfToken }: EntrarType) => {
+const Entrar = () => {
   // const { user } = useData()
   // return user ? <header>{user.name}</header> : null
   return (
@@ -116,14 +111,6 @@ const Entrar = ({ csrfToken }: EntrarType) => {
       </div>
     </div>
   )
-}
-
-export async function getServerSideProps(context: NextPageContext) {
-  return {
-    props: {
-      csrfToken: await getCsrfToken(context),
-    },
-  }
 }
 
 Entrar.CustomLayout = function customLayout(page: React.ReactElement) {
