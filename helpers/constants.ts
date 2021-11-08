@@ -21,6 +21,30 @@ const REFRESHTOKEN_URL = BACKEND_URL! + REFRESHTOKEN_PATH
 
 const DATE_UNTIL_TOKEN_EXPIRES = Date.now() + 1000 * 60 * 60 * 22
 
+function trailSlasher(str: string) {
+  return str + '/'
+}
+
+const groupOptions = [
+  {
+    label: 'Administrativo',
+    value: 1,
+  },
+  { label: 'Caixa', value: 2 },
+  {
+    label: 'Cozinha',
+    value: 3,
+  },
+  {
+    label: 'Proprietário',
+    value: 4,
+  },
+  {
+    label: 'Superuser',
+    value: 5,
+  },
+]
+
 export {
   API_REQUEST_HEADERS,
   CSRF_URL,
@@ -29,4 +53,6 @@ export {
   USERS_URL,
   REFRESHTOKEN_URL,
   DATE_UNTIL_TOKEN_EXPIRES,
+  trailSlasher,
+  groupOptions,
 }

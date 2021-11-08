@@ -82,64 +82,52 @@ function Editar() {
                   {...register('id')}
                   type="text"
                   id="id"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  className="input input-bordered input-disabled"
                   disabled
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="first_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Nome
+                <label htmlFor="first_name" className="label">
+                  <span className="label-text">Nome</span>
                 </label>
                 <input
                   {...register('first_name')}
                   type="text"
                   id="first_name"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  className="input input-bordered flex-1 block w-full sm:text-sm"
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="last_name"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Sobrenome
+                <label htmlFor="last_name" className="label">
+                  <span className="label-text">Sobrenome</span>
                 </label>
                 <input
                   {...register('last_name')}
                   type="text"
                   id="last_name"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  className="input input-bordered flex-1 block w-full sm:text-sm"
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Email
+                <label htmlFor="email" className="label">
+                  <span className="label-text">Email</span>
                 </label>
                 <input
                   {...register('email')}
                   type="text"
                   id="email"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  className="input input-bordered flex-1 block w-full sm:text-sm"
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-700"
-                >
-                  Senha
+                <label htmlFor="password" className="label">
+                  <span className="label-text">Senha</span>
                 </label>
                 <input
                   {...register('password')}
                   type="password"
                   id="password"
-                  className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                  className="input input-bordered flex-1 block w-full sm:text-sm"
                 />
               </div>
               <div className="col-span-6 sm:col-span-3">

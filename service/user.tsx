@@ -1,4 +1,4 @@
-import { USERS_URL } from '~/helpers/constants'
+import { trailSlasher, USERS_URL } from '~/helpers/constants'
 import { service } from '~/service'
 
 export type GetUsersType = {
@@ -7,8 +7,8 @@ export type GetUsersType = {
 
 async function getUsers() {
   try {
-    const res = await service(USERS_URL)
-    return res.data as UserType[]
+    const res = await service(trailSlasher(USERS_URL))
+    return res.data as PaginatedResult<UserType>
   } catch (err) {
     console.error('Erro em getUsers')
     throw new Error(JSON.stringify(err))
@@ -28,20 +28,24 @@ async function getUser({ userId }: GetUsersType) {
 
 async function createUser(payload: UserType) {
   try {
-    const res = await service.post(USERS_URL + '/', payload)
+    const res = await service.post(trailSlasher(USERS_URL), payload)
+    console.log({ res })
     return res.status
-  } catch (err) {
-    console.error('Erro em createUser')
-    throw new Error(JSON.stringify(err))
+  } catch (error: any) {
+    console.error('Erro em createUser', JSON.stringify(error))
+    if (error.response) {
+      console.error({ response: error.response })
+    }
+    throw new Error(JSON.stringify(error))
   }
 }
 
-async function deleteUser(id: Pick<UserType, 'id'>) {
+async function deleteUser(id: UserType['id']) {
   try {
     const res = await service.delete(USERS_URL + '/' + id)
     return res.status
   } catch (err) {
-    console.error('Erro em createUser')
+    console.error('Erro em deleteUser')
     throw new Error(JSON.stringify(err))
   }
 }

@@ -1,3 +1,8 @@
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import CssBaseline from '@mui/material/CssBaseline'
 import { NextPage } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
@@ -56,15 +61,18 @@ function App({
   )
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={dehydratedState}>
-          <Toaster />
-          <AuthComponent>{getLayout}</AuthComponent>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </Hydrate>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <>
+      <CssBaseline enableColorScheme />
+      <ThemeProvider attribute="class" defaultTheme="light">
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={dehydratedState}>
+            <Toaster />
+            <AuthComponent>{getLayout}</AuthComponent>
+            <ReactQueryDevtools initialIsOpen={false} />
+          </Hydrate>
+        </QueryClientProvider>
+      </ThemeProvider>
+    </>
   )
 }
 

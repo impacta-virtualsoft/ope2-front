@@ -14,9 +14,9 @@ service.interceptors.request.use(
   async (config) => {
     // Do something before request is sent
     const session = await getSession()
-    console.log('==> INTERCEPTOR')
-    console.log({ session })
-    console.log({ config })
+    // console.log('==> INTERCEPTOR')
+    // console.log({ session })
+    // console.log({ config })
     if (session) {
       config.headers = {
         ...config.headers,

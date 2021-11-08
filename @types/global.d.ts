@@ -29,6 +29,15 @@ declare type UserType = {
   groups: number[]
 }
 
+type groupOptions = {
+  label: string
+  value: number
+}
+type FormUserType = Omit<UserType, 'groups'> & {
+  confirm_password: string
+  groups: groupOptions[]
+}
+
 type ProductType = {
   id: number
   created_in: string
@@ -37,4 +46,11 @@ type ProductType = {
   description: string
   type: number
   unit_measure: number
+}
+
+type PaginatedResult<T> = {
+  count: number
+  next: string | null
+  prev: string | null
+  results: T[]
 }

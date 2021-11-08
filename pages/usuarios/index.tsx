@@ -1,7 +1,13 @@
+import clsx from 'clsx'
 import { GetStaticProps } from 'next'
 import Link from 'next/link'
 import * as React from 'react'
-import { dehydrate, QueryClient } from 'react-query'
+import {
+  dehydrate,
+  QueryClient,
+  useMutation,
+  useQueryClient,
+} from 'react-query'
 import Layout from '~/components/Layout'
 import { useError, useUsers } from '~/helpers/hooks'
 import { deleteUser, getUsers } from '~/service/user'
@@ -19,15 +25,15 @@ export const getStaticProps: GetStaticProps = async () => {
 }
 
 const User = () => {
-  const { data: users, isLoading, isError, error } = useUsers()
+  const { data: users, isLoading, isError, isFetching, error } = useUsers()
+  const queryClient = useQueryClient()
   const { errorMessage } = useError({ isError, error })
+  const mutation = useMutation(deleteUser, {
+    onSuccess: () => queryClient.invalidateQueries('users'),
+  })
 
-  const handleDelete = (id: Pick<UserType, 'id'>) => async () => {
-    console.log('GONNA DELETE USER ' + id)
-    if (id) await deleteUser(id)
-  }
-  const handleDeleteTest = (id: Pick<UserType, 'id'>) => () => {
-    console.log({ id })
+  const handleDelete = async (id: UserType['id']) => {
+    mutation.mutate(id)
   }
 
   if (isLoading) {
@@ -42,27 +48,29 @@ const User = () => {
     )
   }
 
-  if (!users) return null
+  if (!users || users.results.length <= 0) return null
 
   return (
     <div>
       <div>
-        <button className="btn btn-primary">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            className="inline-block w-6 h-6 mr-2 stroke-current transform rotate-45"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            ></path>
-          </svg>
-          Criar
-        </button>
+        <Link href="/usuarios/criar">
+          <a className="btn btn-primary">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              className="inline-block w-6 h-6 mr-2 stroke-current transform rotate-45"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="2"
+                d="M6 18L18 6M6 6l12 12"
+              ></path>
+            </svg>
+            Criar
+          </a>
+        </Link>
       </div>
       <table className="table">
         <thead>
@@ -74,56 +82,62 @@ const User = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id} className="hover">
-              <td>{user.id}</td>
-              <td>
-                {user.first_name} {user.last_name}
-              </td>
-              <td>{user.email}</td>
-              <td>
-                <Link
-                  href={{
-                    pathname: '/usuarios/editar/[id]',
-                    query: { id: user.id },
-                  }}
-                >
-                  <a className="btn btn-secondary">Editar</a>
-                </Link>{' '}
-                <label
-                  htmlFor="delete-modal"
-                  className="btn btn-error modal-button"
-                >
-                  Apagar
-                </label>
-                <input
-                  type="checkbox"
-                  id="delete-modal"
-                  className="modal-toggle"
-                  onClick={handleDeleteTest(user.id)}
-                  data-user-id={user.id}
-                />
-                <div className="modal">
-                  <div className="modal-box">
-                    <p>Você tem certeza que deseja apagar esse usuário?</p>
-                    <div className="modal-action">
-                      <label
-                        htmlFor="delete-modal"
-                        className="btn btn-error"
-                        onClick={handleDelete(user.id)}
-                        data-user-id={user.id}
-                      >
-                        Apagar
-                      </label>
-                      <label htmlFor="delete-modal" className="btn">
-                        Fechar
-                      </label>
+          {users && users.results.length > 0
+            ? users.results.map((user) => (
+                <tr key={user.id} className="hover">
+                  <td>{user.id}</td>
+                  <td>
+                    {user.first_name} {user.last_name}
+                  </td>
+                  <td>{user.email}</td>
+                  <td>
+                    <Link
+                      href={{
+                        pathname: '/usuarios/editar/[id]',
+                        query: { id: user.id },
+                      }}
+                    >
+                      <a className="btn btn-secondary">Editar</a>
+                    </Link>{' '}
+                    <label
+                      htmlFor={`delete-modal-${user.id}`}
+                      className={clsx(
+                        'btn btn-error modal-button',
+                        isFetching ? 'btn-disabled' : null
+                      )}
+                      disabled={isFetching}
+                    >
+                      Apagar
+                    </label>
+                    <input
+                      type="checkbox"
+                      id={`delete-modal-${user.id}`}
+                      className="modal-toggle"
+                    />
+                    <div className="modal">
+                      <div className="modal-box">
+                        <p>Você tem certeza que deseja apagar esse usuário?</p>
+                        <div className="modal-action">
+                          <label
+                            htmlFor={`delete-modal-${user.id}`}
+                            className="btn btn-error"
+                            onClick={() => handleDelete(user.id)}
+                          >
+                            Apagar
+                          </label>
+                          <label
+                            htmlFor={`delete-modal-${user.id}`}
+                            className="btn"
+                          >
+                            Fechar
+                          </label>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-          ))}
+                  </td>
+                </tr>
+              ))
+            : null}
         </tbody>
       </table>
     </div>

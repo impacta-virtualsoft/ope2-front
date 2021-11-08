@@ -28,6 +28,14 @@
   --tw-ring-color: transparent;
   border-color: transparent;
 }
+.no-ring {
+  display: flex;
+  padding: 0;
+}
+.no-ring .rs__control {
+  border-width: 0;
+  width: 100%;
+}
 
 /* #Mega Menu Styles
   –––––––––––––––––––––––––––––––––––––––––––––––––– */
