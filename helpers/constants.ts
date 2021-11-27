@@ -45,6 +45,9 @@ const groupOptions = [
   },
 ]
 
+// Width of the drawer in header leayout
+const DRAWER_WIDTH = 240
+
 export {
   API_REQUEST_HEADERS,
   CSRF_URL,
@@ -55,4 +58,5 @@ export {
   DATE_UNTIL_TOKEN_EXPIRES,
   trailSlasher,
   groupOptions,
+  DRAWER_WIDTH,
 }

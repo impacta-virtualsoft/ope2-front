@@ -1,16 +1,34 @@
+import AssessmentIcon from '@mui/icons-material/Assessment'
+import BadgeIcon from '@mui/icons-material/Badge'
+import ContactsIcon from '@mui/icons-material/Contacts'
+import HomeIcon from '@mui/icons-material/Home'
+import MenuIcon from '@mui/icons-material/Menu'
+import NotificationsIcon from '@mui/icons-material/Notifications'
+import ReceiptIcon from '@mui/icons-material/Receipt'
+import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
+import { Badge, Drawer } from '@mui/material'
+import AppBar from '@mui/material/AppBar'
+import Box from '@mui/material/Box'
+import Divider from '@mui/material/Divider'
+import IconButton from '@mui/material/IconButton'
+import List from '@mui/material/List'
+import { alpha, styled } from '@mui/material/styles'
+import Toolbar from '@mui/material/Toolbar'
+import Typography from '@mui/material/Typography'
 import { signOut } from 'next-auth/react'
-import React from 'react'
-import Header from './Header'
-import MainNav from './MainNav'
+import * as React from 'react'
+import LogoDH from '~/assets/images/logo-divina-symbol.svg'
+import { DRAWER_WIDTH } from '~/helpers/constants'
+import ActiveLink from './ActiveLink'
 import Meta from './Meta'
 
 const navMain = [
-  { label: 'Início', href: '/' },
-  { label: 'Cardápio', href: '/cardapio' },
-  { label: 'Pedidos', href: '/pedidos' },
-  { label: 'Clientes', href: '/clientes' },
-  { label: 'Relatórios', href: '/relatorios' },
-  { label: 'Usuários', href: '/usuarios' },
+  { label: 'Início', href: '/', icon: HomeIcon },
+  { label: 'Cardápio', href: '/cardapio', icon: RestaurantMenuIcon },
+  { label: 'Pedidos', href: '/pedidos', icon: ReceiptIcon },
+  { label: 'Clientes', href: '/clientes', icon: ContactsIcon },
+  { label: 'Relatórios', href: '/relatorios', icon: AssessmentIcon },
+  { label: 'Usuários', href: '/usuarios', icon: BadgeIcon /*PeopleAltIcon*/ },
 ]
 const navUser = [
   {
@@ -29,26 +47,157 @@ const navUser = [
   },
 ]
 
+const MainBox = styled(Box)`
+  flex-grow: 1;
+  height: 100vh;
+  overflow: 'auto';
+  /* background-color: ${({ theme }) =>
+    theme.palette.mode === 'light'
+      ? theme.palette.grey[100]
+      : theme.palette.grey[900]}; */
+`
+
+const Header = styled('header')`
+  position: 'sticky';
+  top: 0;
+  transition: ${({ theme }) => theme.transitions.create('top')};
+  z-index: ${({ theme }) => theme.zIndex.appBar};
+  backdrop-filter: 'blur(20px)';
+  box-shadow: inset 0px -1px 1px ${({ theme }) => (theme.palette.mode === 'dark' ? theme.palette.grey[700] : theme.palette.grey[100])};
+  background-color: ${({ theme }) =>
+    theme.palette.mode === 'dark'
+      ? alpha(theme.palette.grey[900], 0.72)
+      : 'rgba(255,255,255,0.72)'};
+`
+
 const Layout: React.FC = ({ children }) => {
   const [title, setTitle] = React.useState('Divina Hamburgueria')
 
-  return (
+  const [mobileOpen, setMobileOpen] = React.useState(false)
+
+  const handleDrawerToggle = () => {
+    setMobileOpen(!mobileOpen)
+  }
+
+  const drawer = (
     <div>
-      <Meta />
-      <MainNav navMain={navMain} navUser={navUser} />
-      <Header title={title} />
-      <main>
-        <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-          {/* Content */}
-          {/* <div className="px-4 py-6 sm:px-0"> */}
-          {/* <div className="border-4 border-dashed border-gray-200 rounded-lg"> */}
-          {children}
-          {/* </div> */}
-          {/* </div> */}
-          {/* /End Content */}
-        </div>
-      </main>
+      <Toolbar />
+      <Divider />
+      <List>
+        {navMain.map((nav) => (
+          <ActiveLink
+            label={nav.label}
+            href={nav.href}
+            icon={nav.icon}
+            key={nav.label}
+          />
+        ))}
+      </List>
+      {/* <Divider />
+      <List>
+        {['All mail', 'Trash', 'Spam'].map((text, index) => (
+          <ListItem button key={text}>
+            <ListItemIcon>
+              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
+      </List> */}
     </div>
+  )
+
+  return (
+    <>
+      <Meta />
+      <MainBox sx={{ display: 'flex' }}>
+        <AppBar
+          variant="outlined"
+          color="primary"
+          position="fixed"
+          sx={{
+            width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+            ml: { sm: `${DRAWER_WIDTH}px` },
+            maxHeight: '64px',
+          }}
+        >
+          <Toolbar>
+            <>
+              <IconButton
+                color="inherit"
+                aria-label="open drawer"
+                edge="start"
+                onClick={handleDrawerToggle}
+                sx={{ mr: 2, display: { sm: 'none' } }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <LogoDH height={32} />
+              <Typography sx={{ marginLeft: '12px', flexGrow: 1 }}>
+                Divina Hamburgueria
+              </Typography>
+              <IconButton color="inherit">
+                <Badge badgeContent={4} color="secondary">
+                  <NotificationsIcon />
+                </Badge>
+              </IconButton>
+            </>
+          </Toolbar>
+        </AppBar>
+        <Box
+          component="nav"
+          sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
+          aria-label="mailbox folders"
+        >
+          {mobileOpen ? (
+            <Drawer
+              color="alt"
+              variant="temporary"
+              open={mobileOpen}
+              onClose={handleDrawerToggle}
+              ModalProps={{
+                keepMounted: true, // Better open performance on mobile.
+              }}
+              sx={{
+                display: { xs: 'block', sm: 'none' },
+                '& .MuiDrawer-paper': {
+                  boxSizing: 'border-box',
+                  width: DRAWER_WIDTH,
+                },
+              }}
+            >
+              {drawer}
+            </Drawer>
+          ) : (
+            <Drawer
+              variant="permanent"
+              color="alt"
+              sx={{
+                display: { xs: 'none', sm: 'block' },
+                '& .MuiDrawer-paper': {
+                  boxSizing: 'border-box',
+                  width: DRAWER_WIDTH,
+                },
+              }}
+              open
+            >
+              {drawer}
+            </Drawer>
+          )}
+        </Box>
+        <Box
+          component="main"
+          sx={{
+            flexGrow: 1,
+            p: 3,
+            width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+          }}
+        >
+          <Toolbar />
+          {children}
+        </Box>
+      </MainBox>
+    </>
   )
 }
 

@@ -248,7 +248,6 @@ const CreateUser = () => {
                               noOptionsMessage={({ inputValue }) =>
                                 'Sem opções com a busca ' + inputValue
                               }
-                              isMulti
                             />
                           )
                         }}
