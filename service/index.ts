@@ -5,7 +5,7 @@ import { BACKEND_URL } from '~/helpers/envs'
 
 const service = axios.create({
   baseURL: BACKEND_URL,
-  timeout: 1000,
+  // timeout: 1000,
   headers: API_REQUEST_HEADERS,
 })
 
@@ -17,7 +17,7 @@ service.interceptors.request.use(
     // console.log('==> INTERCEPTOR')
     // console.log({ session })
     // console.log({ config })
-    if (session) {
+    if (session && session.accessToken) {
       config.headers = {
         ...config.headers,
         Authorization: 'Bearer ' + session.accessToken,

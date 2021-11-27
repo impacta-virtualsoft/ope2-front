@@ -20,8 +20,10 @@ async function getLoginToken(data: CredentialRequestType) {
 }
 
 async function getLoginUser({ access }: TokenType) {
+  const decodedToken = decodeToken(access)
+  console.log({ decodedToken })
+  console.log(`${USERS_URL}/${decodedToken.user_id}`)
   try {
-    const decodedToken = decodeToken(access)
     const req = await service({
       method: 'GET',
       url: `${USERS_URL}/${decodedToken.user_id}`,
