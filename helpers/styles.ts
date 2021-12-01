@@ -1,5 +1,7 @@
 import { PaletteMode } from '@mui/material'
+import { ptBR as corePtBR } from '@mui/material/locale'
 import { createTheme } from '@mui/material/styles'
+import { ptBR } from '@mui/x-data-grid'
 
 declare module '@mui/material/AppBar' {
   interface AppBarPropsColorOverrides {
@@ -25,43 +27,47 @@ const theme = createTheme({
 })
 
 const defaultTheme = createTheme()
-const originalTheme = createTheme({
-  palette: {
-    action: {
-      selected: '#d42300',
+const originalTheme = createTheme(
+  {
+    palette: {
+      action: {
+        selected: '#d42300',
+      },
+      background: {
+        default: '#f5ebdc',
+        paper: '#f5ebdc',
+      },
+      text: {
+        primary: '#1E1900',
+        secondary: '#352A00',
+      },
+      primary: {
+        main: '#d42300',
+        light: '#dd5e32',
+        dark: '#9a0000',
+      },
+      secondary: {
+        main: '#fdd835',
+        light: '#ffff6b',
+        dark: '#c6a700',
+      },
     },
-    background: {
-      default: '#f5ebdc',
-      paper: '#f5ebdc',
-    },
-    text: {
-      primary: '#1E1900',
-      secondary: '#352A00',
-    },
-    secondary: {
-      main: '#d42300',
-      light: '#dd5e32',
-      dark: '#9a0000',
-    },
-    primary: {
-      main: '#fdd835',
-      light: '#ffff6b',
-      dark: '#c6a700',
-    },
-  },
-  components: {
-    MuiAppBar: {
-      variants: [
-        {
-          props: { color: 'alt' },
-          style: {
-            background: '#1E1900',
+    components: {
+      MuiAppBar: {
+        variants: [
+          {
+            props: { color: 'alt' },
+            style: {
+              background: '#1E1900',
+            },
           },
-        },
-      ],
+        ],
+      },
     },
   },
-})
+  ptBR,
+  corePtBR
+)
 
 const getDesignTokens = (mode: PaletteMode) => ({
   palette: {

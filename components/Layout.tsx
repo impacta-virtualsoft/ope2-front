@@ -6,15 +6,18 @@ import MenuIcon from '@mui/icons-material/Menu'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
-import { Badge, Drawer } from '@mui/material'
-import AppBar from '@mui/material/AppBar'
-import Box from '@mui/material/Box'
-import Divider from '@mui/material/Divider'
-import IconButton from '@mui/material/IconButton'
-import List from '@mui/material/List'
+import {
+  AppBar,
+  Badge,
+  Box,
+  Divider,
+  Drawer,
+  IconButton,
+  List,
+  Toolbar,
+  Typography,
+} from '@mui/material'
 import { alpha, styled } from '@mui/material/styles'
-import Toolbar from '@mui/material/Toolbar'
-import Typography from '@mui/material/Typography'
 import { signOut } from 'next-auth/react'
 import * as React from 'react'
 import LogoDH from '~/assets/images/logo-divina-symbol.svg'
@@ -112,8 +115,7 @@ const Layout: React.FC = ({ children }) => {
       <Meta />
       <MainBox sx={{ display: 'flex' }}>
         <AppBar
-          variant="outlined"
-          color="primary"
+          color="secondary"
           position="fixed"
           sx={{
             width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
@@ -133,7 +135,11 @@ const Layout: React.FC = ({ children }) => {
                 <MenuIcon />
               </IconButton>
               <LogoDH height={32} />
-              <Typography sx={{ marginLeft: '12px', flexGrow: 1 }}>
+              <Typography
+                sx={{ marginLeft: '12px', flexGrow: 1 }}
+                variant="h6"
+                component="h1"
+              >
                 Divina Hamburgueria
               </Typography>
               <IconButton color="inherit">
