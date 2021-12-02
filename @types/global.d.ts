@@ -43,7 +43,7 @@ type groupOptions = {
 type FormUserType = Omit<UserType, 'groups'> & {
   confirm_password: string
   // groups: groupOptions[]
-  groups: groupOptions
+  groups: groupOptions | string
 }
 
 type PermissionAction = 'add' | 'change' | 'delete' | 'view'
