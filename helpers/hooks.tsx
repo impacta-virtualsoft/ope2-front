@@ -1,13 +1,15 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
+import { getPermissions } from '~/service/permission'
+import { getProductDetails } from '~/service/product'
 import { getUser, getUsers, GetUsersType } from '~/service/user'
 
 type UseErrorType = {
   isError: boolean
   error: unknown
 }
-function useError({ isError, error }: UseErrorType) {
+export function useError({ isError, error }: UseErrorType) {
   const [errorMessage, setErrorMessage] = React.useState<string>('')
 
   React.useEffect(() => {
@@ -30,16 +32,25 @@ function useError({ isError, error }: UseErrorType) {
   return { errorMessage }
 }
 
-function useUsers() {
+export function useUsers() {
   const query = useQuery('users', getUsers)
 
   return query
 }
 
-function useUser({ userId }: GetUsersType) {
+export function useUser({ userId }: GetUsersType) {
   const query = useQuery(['user', userId], () => getUser({ userId }))
-
   return query
 }
 
-export { useError, useUsers, useUser }
+export function usePermissions() {
+  const query = useQuery('permissions', getPermissions)
+  return query
+}
+
+// export function useProductDetails({ page }: GetProductDetailsType) {
+export function useProductDetails() {
+  // const query = useQuery(['productDetails', page], () => getProductDetails({ page }), {     keepPreviousData: true, })
+  const query = useQuery('productDetails', getProductDetails)
+  return query
+}

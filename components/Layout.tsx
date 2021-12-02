@@ -1,14 +1,13 @@
-import AssessmentIcon from '@mui/icons-material/Assessment'
 import BadgeIcon from '@mui/icons-material/Badge'
 import ContactsIcon from '@mui/icons-material/Contacts'
 import HomeIcon from '@mui/icons-material/Home'
 import MenuIcon from '@mui/icons-material/Menu'
-import NotificationsIcon from '@mui/icons-material/Notifications'
+import ProductionQuantityLimitsIcon from '@mui/icons-material/ProductionQuantityLimits'
 import ReceiptIcon from '@mui/icons-material/Receipt'
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu'
+import TextSnippetIcon from '@mui/icons-material/TextSnippet'
 import {
   AppBar,
-  Badge,
   Box,
   Divider,
   Drawer,
@@ -22,16 +21,39 @@ import { signOut } from 'next-auth/react'
 import * as React from 'react'
 import LogoDH from '~/assets/images/logo-divina-symbol.svg'
 import { DRAWER_WIDTH } from '~/helpers/constants'
+import { usePermissions } from '~/helpers/hooks'
 import ActiveLink from './ActiveLink'
 import Meta from './Meta'
 
 const navMain = [
   { label: 'Início', href: '/', icon: HomeIcon },
-  { label: 'Cardápio', href: '/cardapio', icon: RestaurantMenuIcon },
-  { label: 'Pedidos', href: '/pedidos', icon: ReceiptIcon },
-  { label: 'Clientes', href: '/clientes', icon: ContactsIcon },
-  { label: 'Relatórios', href: '/relatorios', icon: AssessmentIcon },
-  { label: 'Usuários', href: '/usuarios', icon: BadgeIcon /*PeopleAltIcon*/ },
+  {
+    label: 'Clientes',
+    href: '/clientes',
+    apiKeys: ['client'],
+    icon: ContactsIcon,
+  },
+  {
+    label: 'Cardápio',
+    href: '/cardapio',
+    apiKeys: ['menu'],
+    icon: RestaurantMenuIcon,
+  },
+  {
+    label: 'Produtos',
+    href: '/produtos',
+    apiKeys: ['product'],
+    icon: ProductionQuantityLimitsIcon,
+  },
+  {
+    label: 'Receitas',
+    href: '/receitas',
+    apiKeys: ['recipe'],
+    icon: TextSnippetIcon,
+  },
+  { label: 'Pedidos', href: '/pedidos', apiKeys: ['user'], icon: ReceiptIcon },
+  { label: 'Usuários', href: '/usuarios', apiKeys: ['user'], icon: BadgeIcon },
+  // { label: 'Relatórios', href: '/relatorios', icon: AssessmentIcon },
 ]
 const navUser = [
   {
@@ -75,6 +97,8 @@ const Header = styled('header')`
 
 const Layout: React.FC = ({ children }) => {
   const [title, setTitle] = React.useState('Divina Hamburgueria')
+  const [navLinks, setNavLinks] = React.useState(navMain)
+  const { data: permissionData } = usePermissions()
 
   const [mobileOpen, setMobileOpen] = React.useState(false)
 
@@ -82,12 +106,16 @@ const Layout: React.FC = ({ children }) => {
     setMobileOpen(!mobileOpen)
   }
 
+  React.useEffect(() => {
+    console.log({ permissions: permissionData?.permissions })
+  }, [permissionData])
+
   const drawer = (
     <div>
       <Toolbar />
       <Divider />
       <List>
-        {navMain.map((nav) => (
+        {navLinks.map((nav) => (
           <ActiveLink
             label={nav.label}
             href={nav.href}
@@ -142,11 +170,11 @@ const Layout: React.FC = ({ children }) => {
               >
                 Divina Hamburgueria
               </Typography>
-              <IconButton color="inherit">
+              {/* <IconButton color="inherit">
                 <Badge badgeContent={4} color="secondary">
                   <NotificationsIcon />
                 </Badge>
-              </IconButton>
+              </IconButton> */}
             </>
           </Toolbar>
         </AppBar>

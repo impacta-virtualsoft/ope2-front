@@ -1,15 +1,30 @@
-const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
-const API_URL = process.env.NEXT_PUBLIC_API_URL
-const API_PATH = process.env.NEXT_PUBLIC_API_PATH
-const LOGIN_PATH = process.env.NEXT_PUBLIC_LOGIN_PATH
-const USER_PATH = process.env.NEXT_PUBLIC_USER_PATH
-const REFRESHTOKEN_PATH = process.env.NEXT_PUBLIC_REFRESHTOKEN_PATH
+export const BACKEND_URL = process.env.NEXT_PUBLIC_BACKEND_URL
+export const API_URL = process.env.NEXT_PUBLIC_API_URL
+export const API_PATH = process.env.NEXT_PUBLIC_API_PATH
 
-export {
-  BACKEND_URL,
-  API_URL,
-  API_PATH,
-  LOGIN_PATH,
-  USER_PATH,
-  REFRESHTOKEN_PATH,
-}
+export const LOGIN_PATH = process.env.NEXT_PUBLIC_LOGIN_PATH
+export const REFRESHTOKEN_PATH = process.env.NEXT_PUBLIC_REFRESHTOKEN_PATH
+
+export const CLIENT_PATH = process.env.NEXT_PUBLIC_CLIENT_PATH
+
+export const MENU_DETAIL_PATH = process.env.NEXT_PUBLIC_MENU_DETAIL_PATH
+export const MENU_TYPE_PRODUCT_PATH =
+  process.env.NEXT_PUBLIC_MENU_TYPE_PRODUCT_PATH
+export const MENU_TYPE_RECIPE_PATH =
+  process.env.NEXT_PUBLIC_MENU_TYPE_RECIPE_PATH
+export const MENU_PATH = process.env.NEXT_PUBLIC_MENU_PATH
+
+export const PRODUCT_DETAIL_PATH = process.env.NEXT_PUBLIC_PRODUCT_DETAIL_PATH
+export const PRODUCT_TYPE_PATH = process.env.NEXT_PUBLIC_PRODUCT_TYPE_PATH
+export const PRODUCT_PATH = process.env.NEXT_PUBLIC_PRODUCT_PATH
+
+export const PROVIDER_PATH = process.env.NEXT_PUBLIC_PROVIDER_PATH
+
+export const RECIPE_DETAIL_PATH = process.env.NEXT_PUBLIC_RECIPE_DETAIL_PATH
+export const RECIPE_PATH = process.env.NEXT_PUBLIC_RECIPE_PATH
+
+export const UNIT_MEASURE_PATH = process.env.NEXT_PUBLIC_UNIT_MEASURE_PATH
+
+export const PERMISSION_PATH = process.env.NEXT_PUBLIC_PERMISSION_PATH
+export const USER_DETAIL_PATH = process.env.NEXT_PUBLIC_USER_DETAIL_PATH
+export const USER_PATH = process.env.NEXT_PUBLIC_USER_PATH

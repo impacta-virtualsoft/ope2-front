@@ -1,7 +1,10 @@
 import axios from 'axios'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import { getSession } from 'next-auth/react'
-import { USERS_URL } from '~/helpers/constants'
+import { makeUrl } from '~/helpers/constants'
+import { USER_PATH } from '~/helpers/envs'
+
+const usersUrl = makeUrl(USER_PATH)
 
 export default async function handler(
   req: NextApiRequest,
@@ -14,7 +17,7 @@ export default async function handler(
   console.log({ session })
   console.log({ token })
 
-  const allUsers = await axios.get(USERS_URL, {
+  const allUsers = await axios.get(usersUrl, {
     headers: { Authorization: 'Bearer ' + token },
   })
 

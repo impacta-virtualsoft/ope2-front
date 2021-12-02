@@ -1,31 +1,22 @@
-import {
-  API_URL,
-  BACKEND_URL,
-  LOGIN_PATH,
-  REFRESHTOKEN_PATH,
-  USER_PATH,
-} from './envs'
+import { API_URL, BACKEND_URL } from './envs'
 
-const API_REQUEST_HEADERS = {
-  // accept: '*/*',
-  // corsOrigin: '*',
-  // 'Access-Control-Allow-Origin': '*',
+export const API_REQUEST_HEADERS = {
   'Content-Type': 'application/json',
+  Accept: 'application/json',
 }
-const CSRF_URL = '/api/auth/csrf'
-const SIGNOUT_URL = '/api/auth/signout'
+export const CSRF_URL = '/api/auth/csrf'
+export const SIGNOUT_URL = '/api/auth/signout'
+export const DATE_UNTIL_TOKEN_EXPIRES = Date.now() + 1000 * 60 * 60 * 22
 
-const LOGIN_URL = BACKEND_URL! + LOGIN_PATH!
-const USERS_URL = API_URL! + USER_PATH
-const REFRESHTOKEN_URL = BACKEND_URL! + REFRESHTOKEN_PATH
+export function makeUrl(path?: string, isOutOfAPI = false) {
+  return isOutOfAPI ? BACKEND_URL! + path! : API_URL! + path!
+}
 
-const DATE_UNTIL_TOKEN_EXPIRES = Date.now() + 1000 * 60 * 60 * 22
-
-function trailSlasher(str: string) {
+export function trailSlasher(str: string) {
   return str + '/'
 }
 
-const groupOptions = [
+export const groupOptions = [
   {
     label: 'Administrativo',
     value: 1,
@@ -46,9 +37,9 @@ const groupOptions = [
 ]
 
 // Width of the drawer in header leayout
-const DRAWER_WIDTH = 240
+export const DRAWER_WIDTH = 240
 
-const gridLocaleText = {
+export const gridLocaleText = {
   // Root
   noRowsLabel: 'Sem linhas',
   noResultsOverlayLabel: 'Nenhum registro encontrado.',
@@ -160,18 +151,4 @@ const gridLocaleText = {
 
   // Used core components translation keys
   MuiTablePagination: {},
-}
-
-export {
-  API_REQUEST_HEADERS,
-  CSRF_URL,
-  SIGNOUT_URL,
-  LOGIN_URL,
-  USERS_URL,
-  REFRESHTOKEN_URL,
-  DATE_UNTIL_TOKEN_EXPIRES,
-  trailSlasher,
-  groupOptions,
-  DRAWER_WIDTH,
-  gridLocaleText,
 }

@@ -7,7 +7,6 @@ import {
   DialogContent,
   DialogTitle,
   Grid,
-  LinearProgress,
   Paper,
   styled,
   Tab,
@@ -19,7 +18,6 @@ import {
   DataGrid,
   GridCellEditCommitParams,
   GridColDef,
-  GridOverlay,
   gridPaginationSelector,
   GridRenderEditCellParams,
   GridSelectionModel,
@@ -39,6 +37,7 @@ import {
   useQueryClient,
 } from 'react-query'
 import Select from 'react-select'
+import { DataGridLoadingOverlay } from '~/components/DataGridLoadingOverlay'
 import Layout from '~/components/Layout'
 import LinkButton from '~/components/LinkButton'
 import TabPanel from '~/components/TabPanel'
@@ -329,7 +328,7 @@ const User = () => {
                 }}
                 components={{
                   Toolbar: GridToolbar,
-                  LoadingOverlay: CustomLoadingOverlay,
+                  LoadingOverlay: DataGridLoadingOverlay,
                   // Pagination: CustomPagination,
                   // Footer: CustomFooterDataGrid,
                 }}
@@ -413,16 +412,6 @@ function CustomFooterDataGrid({ rowSelected }: CustomFooterDataGridProps) {
     return null
   }
   return <div>Dados: {JSON.stringify(rowSelected, null, 2)}</div>
-}
-
-function CustomLoadingOverlay() {
-  return (
-    <GridOverlay>
-      <div style={{ position: 'absolute', top: 0, width: '100%' }}>
-        <LinearProgress />
-      </div>
-    </GridOverlay>
-  )
 }
 
 export default User

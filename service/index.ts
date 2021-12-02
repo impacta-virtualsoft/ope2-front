@@ -21,8 +21,6 @@ service.interceptors.request.use(
       config.headers = {
         ...config.headers,
         Authorization: 'Bearer ' + session.accessToken,
-        'Content-Type': 'application/json',
-        Accept: 'application/json',
       }
     }
     return config
