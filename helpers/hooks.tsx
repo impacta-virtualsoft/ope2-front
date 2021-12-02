@@ -3,6 +3,7 @@ import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
 import { getPermissions } from '~/service/permission'
 import { getProductDetails } from '~/service/product'
+import { getRecipeDetails } from '~/service/recipe'
 import { getUser, getUsers, GetUsersType } from '~/service/user'
 
 type UseErrorType = {
@@ -34,7 +35,6 @@ export function useError({ isError, error }: UseErrorType) {
 
 export function useUsers() {
   const query = useQuery('users', getUsers)
-
   return query
 }
 
@@ -52,5 +52,10 @@ export function usePermissions() {
 export function useProductDetails() {
   // const query = useQuery(['productDetails', page], () => getProductDetails({ page }), {     keepPreviousData: true, })
   const query = useQuery('productDetails', getProductDetails)
+  return query
+}
+
+export function useRecipeDetails() {
+  const query = useQuery('recipeDetails', getRecipeDetails)
   return query
 }

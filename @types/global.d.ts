@@ -111,3 +111,30 @@ type FormNewProductType = {
   type: ProductTypeType['id']
   unit_measure: ProductUnitType['id']
 }
+
+// Recipes
+type RecipeDetailProductType = {
+  product: ProductDetailType
+  quantity: number
+}
+type RecipeProductType = {
+  product: ProductType['id']
+  quantity: number
+}
+type RecipeDetailType = {
+  id: number
+  name: string
+  description: string
+  recipe_product: RecipeDetailProductType[]
+}
+type RecipeType = {
+  id: number
+  name: string
+  description: string
+  recipe_product: RecipeProductType[]
+}
+type FormNewRecipeType = {
+  name: string
+  description: string
+  recipe_product: string[]
+}

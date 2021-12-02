@@ -22,7 +22,7 @@ export async function getProductDetails() {
     const res = await service(`${productDetailUrl}`)
     return res.data as PaginatedResult<ProductDetailType>
   } catch (err) {
-    console.error('Erro em getProducts')
+    console.error('Erro em getProductDetails')
     throw new Error(JSON.stringify(err))
   }
 }
@@ -32,7 +32,7 @@ export async function getUnitMeasures() {
     const res = await service(`${productUnitMeasureUrl}`)
     return res.data as PaginatedResult<ProductUnitType>
   } catch (err) {
-    console.error('Erro em getProducts')
+    console.error('Erro em getUnitMeasures')
     throw new Error(JSON.stringify(err))
   }
 }
@@ -42,7 +42,7 @@ export async function getProductTypes() {
     const res = await service(`${productTypeUrl}`)
     return res.data as PaginatedResult<ProductTypeType>
   } catch (err) {
-    console.error('Erro em getProducts')
+    console.error('Erro em getProductTypes')
     throw new Error(JSON.stringify(err))
   }
 }
@@ -63,7 +63,7 @@ export async function getProduct(productId: ProductType['id']) {
     const res = await service(`${productUrl}/${productId}`)
     return res.data as ProductType
   } catch (err) {
-    console.error('Erro em getUser')
+    console.error('Erro em getProduct')
     throw new Error(JSON.stringify(err))
   }
 }
