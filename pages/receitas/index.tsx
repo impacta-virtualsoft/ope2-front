@@ -300,8 +300,12 @@ function FormAddIngredient({ selected }: { selected: any }) {
     { control, name: 'ingredient' }
   )
   const { data: productsData } = useProductDetails()
-  const [ingredients, setIngredients] = React.useState(productsData?.results)
-  const [autoOptions, setAutoOptions] = React.useState([])
+  const [ingredients, setIngredients] = React.useState<
+    ProductDetailType[] | undefined
+  >(productsData?.results)
+  const [autoOptions, setAutoOptions] = React.useState<
+    Partial<ProductDetailType>[] | []
+  >([])
 
   React.useEffect(() => {
     if (productsData && !!productsData.results.length) {
@@ -312,7 +316,7 @@ function FormAddIngredient({ selected }: { selected: any }) {
   }, [productsData])
 
   React.useEffect(() => {
-    if (ingredients && !!ingredients.length) {
+    if (ingredients && ingredients.length) {
       setAutoOptions(
         ingredients.map((item) => ({ label: item.name, id: item.id }))
       )

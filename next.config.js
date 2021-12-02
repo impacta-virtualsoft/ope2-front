@@ -5,6 +5,13 @@ module.exports = {
     domains: ['tailwindui.com', 'images.unsplash.com'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
   },
+  typescript: {
+    // !! WARN !!
+    // Dangerously allow production builds to successfully complete even if
+    // your project has type errors.
+    // !! WARN !!
+    ignoreBuildErrors: true,
+  },
   // async redirects() {
   //   return [
   //     {
