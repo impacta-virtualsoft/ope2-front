@@ -25,6 +25,7 @@ service.interceptors.request.use(
     }
     return config
   },
+
   async (error) => {
     // Do something with request error
     return Promise.reject(error)
