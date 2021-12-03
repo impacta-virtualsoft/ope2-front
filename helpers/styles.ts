@@ -51,6 +51,10 @@ const originalTheme = createTheme(
         light: '#ffff6b',
         dark: '#c6a700',
       },
+      common: {
+        white: '#ffffff',
+        black: '#000000',
+      },
     },
     components: {
       MuiAppBar: {

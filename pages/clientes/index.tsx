@@ -20,22 +20,13 @@ import { DataGridStyled } from '~/components/DataGridStyled'
 import Layout from '~/components/Layout'
 import LinkButton from '~/components/LinkButton'
 import TabPanel from '~/components/TabPanel'
-import {
-  useError,
-  useProductDetails,
-  useProductTypes,
-  useUnitMeasures,
-} from '~/helpers/hooks'
-import {
-  deleteMultipleProducts,
-  editProduct,
-  getProductDetails,
-} from '~/service/product'
+import { useClients, useError } from '~/helpers/hooks'
+import { deleteMultipleClients, editClient, getClients } from '~/service/client'
 
 export const getStaticProps: GetStaticProps = async () => {
   const queryClient = new QueryClient()
 
-  await queryClient.prefetchQuery('productDetails', getProductDetails)
+  await queryClient.prefetchQuery('clients', getClients)
 
   return {
     props: {
@@ -44,32 +35,30 @@ export const getStaticProps: GetStaticProps = async () => {
   }
 }
 
-export default function ProducstHome() {
-  const { data: pageData, isLoading, isError, error } = useProductDetails()
-  const { data: typeData } = useProductTypes()
-  const { data: unitData } = useUnitMeasures()
+export default function ClientesHome() {
+  const { data: pageData, isLoading, isError, error } = useClients()
   const queryClient = useQueryClient()
   const { errorMessage } = useError({ isError, error })
   const [isDeleting, setIsDeleting] = React.useState(false)
-  const deleteMultiMutation = useMutation(deleteMultipleProducts, {
+  const deleteMultiMutation = useMutation(deleteMultipleClients, {
     onSuccess: () => {
-      queryClient.invalidateQueries('productDetails')
+      queryClient.invalidateQueries('clients')
       setIsDeleting(false)
     },
   })
-  const editMutation = useMutation(editProduct, {
-    onSuccess: () => queryClient.invalidateQueries('productDetails'),
+  const editMutation = useMutation(editClient, {
+    onSuccess: () => queryClient.invalidateQueries('clients'),
   })
   const [rowSelected, setRowSelected] = React.useState<GridSelectionModel>([])
   const [tabIndex, setTabIndex] = React.useState(0)
 
   const tableColumns: GridColDef[] = React.useMemo(
     () => [
-      {
-        field: 'id',
-        headerName: 'ID',
-        flex: 0.15,
-      },
+      // {
+      //   field: 'id',
+      //   headerName: 'ID',
+      //   flex: 0.15,
+      // },
       {
         field: 'name',
         headerName: 'Nome',
@@ -78,38 +67,14 @@ export default function ProducstHome() {
         flex: 3,
       },
       {
-        field: 'description',
-        headerName: 'Descrição',
+        field: 'cpf',
+        headerName: 'CPF',
         editable: true,
         width: 200,
         flex: 4,
       },
-      {
-        field: 'type',
-        headerName: 'Tipo',
-        editable: true,
-        width: 300,
-        flex: 2,
-        valueGetter: (params) => {
-          return params.value.name
-        },
-        type: 'singleSelect',
-        valueOptions: typeData ? typeData.results.map((item) => item.name) : [],
-      },
-      {
-        field: 'unit_measure',
-        headerName: 'Unidade',
-        editable: true,
-        width: 300,
-        flex: 2,
-        valueGetter: (params) => {
-          return `${params.value.name} (${params.value.short_name})`
-        },
-        type: 'singleSelect',
-        valueOptions: unitData ? unitData.results.map((item) => item.name) : [],
-      },
     ],
-    [typeData, unitData]
+    []
   )
 
   function handleDelete() {
@@ -121,15 +86,6 @@ export default function ProducstHome() {
   function handleCellEdit(params: GridCellEditCommitParams) {
     let { id, field, value } = params
     if (!value) return
-
-    if (field === 'type') {
-      const objType = typeData?.results.find((type) => type.name === value)
-      value = objType ? objType.id.toString() : '1'
-    }
-    if (field === 'unit_measure') {
-      const objUnit = unitData?.results.find((type) => type.name === value)
-      value = objUnit ? objUnit.id.toString() : '1'
-    }
     const paramsToSend = {
       id: Number(id),
       [field]: value,
@@ -161,31 +117,31 @@ export default function ProducstHome() {
   return (
     <>
       <Typography variant="h4" gutterBottom component="h2">
-        Produtos
+        Clientes
       </Typography>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs
           value={tabIndex}
           onChange={handleTabChange}
-          aria-label="aba de produtos"
+          aria-label="aba de clientes"
         >
           <Tab
             label="Tabela"
             component={LinkButton}
-            href="/produtos"
+            href="/clientes"
             {...a11yProps(0)}
           />
           <Tab
-            label="Criar Produto"
+            label="Criar Cliente"
             component={LinkButton}
-            href="/produtos/novo"
+            href="/clientes/novo"
             {...a11yProps(1)}
           />
         </Tabs>
       </Box>
       <TabPanel value={tabIndex} index={0}>
         <Typography style={{ paddingBottom: '1.5em' }}>
-          Visualização e edição total dos produtos.
+          Visualização e edição total dos clientes.
         </Typography>
         <div style={{ display: 'flex', height: '100%' }}>
           <div style={{ flexGrow: 1, position: 'relative' }}>
@@ -238,6 +194,6 @@ export default function ProducstHome() {
   )
 }
 
-ProducstHome.getLayout = function getLayout(page: React.ReactElement) {
+ClientesHome.getLayout = function getLayout(page: React.ReactElement) {
   return <Layout>{page}</Layout>
 }

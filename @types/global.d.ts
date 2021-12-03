@@ -138,3 +138,14 @@ type FormNewRecipeType = {
   description: string
   recipe_product: string[]
 }
+
+// Clients
+type ClientType = {
+  id: number
+  cpf: string
+  name: string
+}
+type FormNewClient = {
+  name?: string
+  cpf?: string
+}

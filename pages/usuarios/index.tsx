@@ -15,7 +15,6 @@ import {
   Typography,
 } from '@mui/material'
 import {
-  DataGrid,
   GridCellEditCommitParams,
   GridColDef,
   gridPaginationSelector,
@@ -37,7 +36,9 @@ import {
   useQueryClient,
 } from 'react-query'
 import Select from 'react-select'
+import { CustomNoRowsOverlay } from '~/components/DataGridCustomNoResults'
 import { DataGridLoadingOverlay } from '~/components/DataGridLoadingOverlay'
+import { DataGridStyled } from '~/components/DataGridStyled'
 import Layout from '~/components/Layout'
 import LinkButton from '~/components/LinkButton'
 import TabPanel from '~/components/TabPanel'
@@ -67,12 +68,6 @@ const DialogContentStyled = styled(DialogContent)`
 `
 const DialogActionsStyled = styled(DialogActions)`
   justify-content: space-between;
-`
-const DataGridStyled = styled(DataGrid)`
-  /* & .MuiDataGrid-toolbarContainer button {
-    color: ${({ theme }) => theme.palette.primary.dark};
-  } */
-  /* border: 1px solid ${({ theme }) => theme.palette.grey[400]}; */
 `
 const GridActions = styled(Grid)`
   margin-top: 20px;
@@ -329,6 +324,7 @@ const User = () => {
                 components={{
                   Toolbar: GridToolbar,
                   LoadingOverlay: DataGridLoadingOverlay,
+                  NoRowsOverlay: CustomNoRowsOverlay,
                   // Pagination: CustomPagination,
                   // Footer: CustomFooterDataGrid,
                 }}
@@ -344,8 +340,8 @@ const User = () => {
               color="error"
               startIcon={<DeleteIcon />}
               onClick={handleDelete}
+              disabled={!!!rowSelected.length}
               style={{
-                visibility: rowSelected.length > 0 ? 'visible' : 'hidden',
                 marginTop: '10px',
               }}
             >

@@ -1,6 +1,7 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
+import { getClients } from '~/service/client'
 import { getPermissions } from '~/service/permission'
 import {
   getProductDetails,
@@ -71,5 +72,10 @@ export function useUnitMeasures() {
 
 export function useRecipeDetails() {
   const query = useQuery('recipeDetails', getRecipeDetails)
+  return query
+}
+
+export function useClients() {
+  const query = useQuery('clients', getClients)
   return query
 }

@@ -15,7 +15,6 @@ import {
   Typography,
 } from '@mui/material'
 import {
-  DataGrid,
   GridCellEditCommitParams,
   GridColDef,
   GridRenderEditCellParams,
@@ -31,7 +30,9 @@ import {
   useMutation,
   useQueryClient,
 } from 'react-query'
+import { CustomNoRowsOverlay } from '~/components/DataGridCustomNoResults'
 import { DataGridLoadingOverlay } from '~/components/DataGridLoadingOverlay'
+import { DataGridStyled } from '~/components/DataGridStyled'
 import Layout from '~/components/Layout'
 import LinkButton from '~/components/LinkButton'
 import TabPanel from '~/components/TabPanel'
@@ -240,7 +241,7 @@ export default function RecipesHome() {
         <div style={{ display: 'flex', height: '100%' }}>
           <div style={{ flexGrow: 1, position: 'relative' }}>
             <Paper elevation={2}>
-              <DataGrid
+              <DataGridStyled
                 autoHeight
                 autoPageSize
                 rows={pageData && pageData.results ? pageData.results : []}
@@ -257,6 +258,7 @@ export default function RecipesHome() {
                 components={{
                   Toolbar: GridToolbar,
                   LoadingOverlay: DataGridLoadingOverlay,
+                  NoRowsOverlay: CustomNoRowsOverlay,
                 }}
               />
             </Paper>
@@ -265,8 +267,8 @@ export default function RecipesHome() {
               color="error"
               startIcon={<DeleteIcon />}
               onClick={handleDelete}
+              disabled={!!!rowSelected.length}
               style={{
-                visibility: rowSelected.length > 0 ? 'visible' : 'hidden',
                 marginTop: '10px',
               }}
             >
