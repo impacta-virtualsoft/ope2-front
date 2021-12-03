@@ -146,9 +146,11 @@ const Layout: React.FC = ({ children }) => {
           color="secondary"
           position="fixed"
           sx={{
-            width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
-            ml: { sm: `${DRAWER_WIDTH}px` },
+            // width: { sm: `calc(100% - ${DRAWER_WIDTH}px)` },
+            // ml: { sm: `${DRAWER_WIDTH}px` },
+            width: '100%',
             maxHeight: '64px',
+            zIndex: 9999,
           }}
         >
           <Toolbar>
@@ -158,7 +160,8 @@ const Layout: React.FC = ({ children }) => {
                 aria-label="open drawer"
                 edge="start"
                 onClick={handleDrawerToggle}
-                sx={{ mr: 2, display: { sm: 'none' } }}
+                // sx={{ mr: 2, display: { sm: 'none' } }}
+                sx={{ mr: 2 }}
               >
                 <MenuIcon />
               </IconButton>
@@ -180,9 +183,31 @@ const Layout: React.FC = ({ children }) => {
         </AppBar>
         <Box
           component="nav"
-          sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
+          // sx={{ width: { sm: DRAWER_WIDTH }, flexShrink: { sm: 0 } }}
+          sx={{
+            width: mobileOpen ? 0 : { md: DRAWER_WIDTH },
+            flexShrink: { sm: 0 },
+          }}
           aria-label="mailbox folders"
         >
+          {/* <Drawer
+            color="alt"
+            variant="temporary"
+            open={mobileOpen}
+            onClose={handleDrawerToggle}
+            ModalProps={{
+              keepMounted: true, // Better open performance on mobile.
+            }}
+            sx={{
+              // display: { xs: 'block', sm: 'none' },
+              '& .MuiDrawer-paper': {
+                boxSizing: 'border-box',
+                width: 200,
+              },
+            }}
+          >
+            {drawer}
+          </Drawer> */}
           {mobileOpen ? (
             <Drawer
               color="alt"
@@ -193,7 +218,7 @@ const Layout: React.FC = ({ children }) => {
                 keepMounted: true, // Better open performance on mobile.
               }}
               sx={{
-                display: { xs: 'block', sm: 'none' },
+                display: { xs: 'block', md: 'none' },
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: DRAWER_WIDTH,
@@ -207,7 +232,7 @@ const Layout: React.FC = ({ children }) => {
               variant="permanent"
               color="alt"
               sx={{
-                display: { xs: 'none', sm: 'block' },
+                display: { xs: 'none', md: 'block' },
                 '& .MuiDrawer-paper': {
                   boxSizing: 'border-box',
                   width: DRAWER_WIDTH,

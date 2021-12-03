@@ -37,7 +37,7 @@ export const groupOptions = [
 ]
 
 // Width of the drawer in header leayout
-export const DRAWER_WIDTH = 240
+export const DRAWER_WIDTH = 200 //240
 
 export const gridLocaleText = {
   // Root

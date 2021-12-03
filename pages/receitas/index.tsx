@@ -258,9 +258,6 @@ export default function RecipesHome() {
                   Toolbar: GridToolbar,
                   LoadingOverlay: DataGridLoadingOverlay,
                 }}
-                componentsProps={{
-                  footer: { rowSelected },
-                }}
               />
             </Paper>
             <Button

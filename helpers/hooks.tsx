@@ -2,7 +2,11 @@ import React from 'react'
 import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
 import { getPermissions } from '~/service/permission'
-import { getProductDetails } from '~/service/product'
+import {
+  getProductDetails,
+  getProductTypes,
+  getUnitMeasures,
+} from '~/service/product'
 import { getRecipeDetails } from '~/service/recipe'
 import { getUser, getUsers, GetUsersType } from '~/service/user'
 
@@ -52,6 +56,16 @@ export function usePermissions() {
 export function useProductDetails() {
   // const query = useQuery(['productDetails', page], () => getProductDetails({ page }), {     keepPreviousData: true, })
   const query = useQuery('productDetails', getProductDetails)
+  return query
+}
+
+export function useProductTypes() {
+  const query = useQuery('productTypes', getProductTypes)
+  return query
+}
+
+export function useUnitMeasures() {
+  const query = useQuery('unitMeasures', getUnitMeasures)
   return query
 }
 

@@ -19,7 +19,12 @@ import { DataGridLoadingOverlay } from '~/components/DataGridLoadingOverlay'
 import Layout from '~/components/Layout'
 import LinkButton from '~/components/LinkButton'
 import TabPanel from '~/components/TabPanel'
-import { useError, useProductDetails } from '~/helpers/hooks'
+import {
+  useError,
+  useProductDetails,
+  useProductTypes,
+  useUnitMeasures,
+} from '~/helpers/hooks'
 import {
   deleteMultipleProducts,
   editProduct,
@@ -40,6 +45,8 @@ export const getStaticProps: GetStaticProps = async () => {
 
 export default function ProducstHome() {
   const { data: pageData, isLoading, isError, error } = useProductDetails()
+  const { data: typeData } = useProductTypes()
+  const { data: unitData } = useUnitMeasures()
   const queryClient = useQueryClient()
   const { errorMessage } = useError({ isError, error })
   const [isDeleting, setIsDeleting] = React.useState(false)
@@ -74,24 +81,34 @@ export default function ProducstHome() {
         headerName: 'Descrição',
         editable: true,
         width: 200,
-        flex: 3,
+        flex: 4,
       },
       {
         field: 'type',
         headerName: 'Tipo',
         editable: true,
         width: 300,
-        flex: 5,
+        flex: 2,
+        valueGetter: (params) => {
+          return params.value.name
+        },
+        type: 'singleSelect',
+        valueOptions: typeData ? typeData.results.map((item) => item.name) : [],
       },
       {
         field: 'unit_measure',
         headerName: 'Unidade',
         editable: true,
         width: 300,
-        flex: 5,
+        flex: 2,
+        valueGetter: (params) => {
+          return `${params.value.name} (${params.value.short_name})`
+        },
+        type: 'singleSelect',
+        valueOptions: unitData ? unitData.results.map((item) => item.name) : [],
       },
     ],
-    []
+    [typeData, unitData]
   )
 
   function handleDelete() {
@@ -101,11 +118,23 @@ export default function ProducstHome() {
   }
 
   function handleCellEdit(params: GridCellEditCommitParams) {
-    if (!params.value) return
-    const paramsToSend = {
-      id: Number(params.id),
-      [params.field]: params.value,
+    let { id, field, value } = params
+    if (!value) return
+
+    if (field === 'type') {
+      const objType = typeData?.results.find((type) => type.name === value)
+      value = objType ? objType.id.toString() : '1'
     }
+    if (field === 'unit_measure') {
+      const objUnit = unitData?.results.find((type) => type.name === value)
+      value = objUnit ? objUnit.id.toString() : '1'
+    }
+    const paramsToSend = {
+      id: Number(id),
+      [field]: value,
+    }
+    console.log({ params })
+    console.log({ paramsToSend })
     editMutation.mutate(paramsToSend)
   }
 
@@ -177,9 +206,6 @@ export default function ProducstHome() {
                 components={{
                   Toolbar: GridToolbar,
                   LoadingOverlay: DataGridLoadingOverlay,
-                }}
-                componentsProps={{
-                  footer: { rowSelected },
                 }}
               />
             </Paper>

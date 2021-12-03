@@ -332,9 +332,9 @@ const User = () => {
                   // Pagination: CustomPagination,
                   // Footer: CustomFooterDataGrid,
                 }}
-                componentsProps={{
-                  footer: { rowSelected },
-                }}
+                // componentsProps={{
+                //   footer: { rowSelected },
+                // }}
                 // localeText={gridLocaleText}
                 // hideFooterPagination
               />
@@ -401,17 +401,6 @@ function CustomPagination() {
       />
     </>
   )
-}
-
-type CustomFooterDataGridProps = {
-  rowSelected: GridSelectionModel
-}
-function CustomFooterDataGrid({ rowSelected }: CustomFooterDataGridProps) {
-  console.log({ rowSelected })
-  if (!rowSelected || rowSelected.length < 0) {
-    return null
-  }
-  return <div>Dados: {JSON.stringify(rowSelected, null, 2)}</div>
 }
 
 export default User
