@@ -9,9 +9,9 @@ import {
 } from '~/service/login'
 
 export default NextAuth({
-  pages: {
-    signIn: '/auth/entrar',
-  },
+  // pages: {
+  //   signIn: '/auth/entrar',
+  // },
   providers: [
     CredentialsProvider({
       // The name to display on the sign in form (e.g. 'Sign in with...')
@@ -34,8 +34,8 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        console.log('==> authorize:')
-        console.log({ credentials })
+        // console.log('==> authorize:')
+        // console.log({ credentials })
 
         try {
           const login = await getLoginToken(
@@ -53,14 +53,15 @@ export default NextAuth({
             accessTokenExpires,
             refreshToken: login?.refresh,
           }
-          console.log({ response })
-          console.log('==> fim do authorize')
+          // console.log({ response })
+          // console.log('==> fim do authorize')
 
           // If no error and we have user data, return it
           if (login && user && user.id) {
             return response
           }
         } catch (err) {
+          console.error('Erro em authorize')
           console.log(err)
         }
         // Return null if user data could not be retrieved
@@ -74,11 +75,11 @@ export default NextAuth({
         session.accessToken = token.accessToken
         session.expires = token.accessTokenExpires as string
       }
-      console.log('==> SESSION')
-      console.log({ session })
-      console.log({ token })
-      console.log({ user })
-      console.log('==> FIM DO SESSION')
+      // console.log('==> SESSION')
+      // console.log({ session })
+      // console.log({ token })
+      // console.log({ user })
+      // console.log('==> FIM DO SESSION')
       return session
     },
     async jwt({ token, user, account, profile, isNewUser }) {
@@ -86,9 +87,9 @@ export default NextAuth({
       // Only "token" param exists after first login
       // user, account, profile and isNewUser params are available only at first login time
       // persist any data from those other into token at login time!
-      console.log('==> JWT')
-      console.log({ token })
-      console.log({ user })
+      // console.log('==> JWT')
+      // console.log({ token })
+      // console.log({ user })
 
       // Runs only once the user logs in
       if (account && user) {
@@ -98,8 +99,8 @@ export default NextAuth({
           accessTokenExpires: user.accessTokenExpires,
           refreshToken: user.refreshToken,
         }
-        console.log('após alteração')
-        console.log({ token })
+        // console.log('após alteração')
+        // console.log({ token })
       }
 
       if (DATE_UNTIL_TOKEN_EXPIRES > (token as any).accessTokenExpires) {
@@ -109,11 +110,11 @@ export default NextAuth({
         return newToken
       }
 
-      console.log({ user })
-      console.log({ account })
-      console.log({ profile })
-      console.log({ isNewUser })
-      console.log('==> FIM DO JWT')
+      // console.log({ user })
+      // console.log({ account })
+      // console.log({ profile })
+      // console.log({ isNewUser })
+      // console.log('==> FIM DO JWT')
       return token
     },
   },

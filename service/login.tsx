@@ -1,11 +1,11 @@
 import { AxiosResponse } from 'axios'
-import jwtDecode from 'jwt-decode'
+import jwt_decode from 'jwt-decode'
 import { makeUrl } from '~/helpers/constants'
 import { LOGIN_PATH, REFRESHTOKEN_PATH, USER_PATH } from '~/helpers/envs'
 import { service } from '~/service'
 
 function decodeToken(token: string) {
-  const decodedToken: DecodedTokenType = jwtDecode(token)
+  const decodedToken: DecodedTokenType = jwt_decode(token)
   return decodedToken
 }
 
@@ -22,19 +22,21 @@ async function getLoginToken(data: CredentialRequestType) {
 }
 
 async function getLoginUser({ access }: TokenType) {
-  const usersUrl = makeUrl(USER_PATH) + '?page_size=1000'
+  const userUrl = makeUrl(USER_PATH)
   const decodedToken = decodeToken(access)
-  // console.log({ decodedToken })
-  // console.log(`${usersUrl}/${decodedToken.user_id}`)
+  console.log({ decodedToken })
+  console.log(`${userUrl}/${decodedToken.user_id}`)
   try {
     const req = await service({
       method: 'GET',
-      url: `${usersUrl}/${decodedToken.user_id}`,
+      url: `${userUrl}/${decodedToken.user_id}`,
       headers: {
         // ...API_REQUEST_HEADERS,
         Authorization: 'Bearer ' + access,
       },
     })
+    console.log('getLoginUser data')
+    console.log(req.data)
     return req.data as UserType
   } catch (err) {
     console.error('Erro em getLoginUser')
