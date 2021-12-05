@@ -1,4 +1,7 @@
+import AddBoxIcon from '@mui/icons-material/AddBox'
+import CheckBoxIcon from '@mui/icons-material/CheckBox'
 import DeleteIcon from '@mui/icons-material/Delete'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import {
   Autocomplete,
   Box,
@@ -7,7 +10,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  IconButton,
+  MenuItem,
   Paper,
+  Stack,
   styled,
   Tab,
   Tabs,
@@ -36,7 +42,12 @@ import { DataGridStyled } from '~/components/DataGridStyled'
 import Layout from '~/components/Layout'
 import LinkButton from '~/components/LinkButton'
 import TabPanel from '~/components/TabPanel'
-import { useError, useProductDetails, useRecipeDetails } from '~/helpers/hooks'
+import {
+  useError,
+  useProductDetails,
+  useRecipeDetails,
+  useUnitMeasures,
+} from '~/helpers/hooks'
 import {
   deleteMultipleRecipes,
   editRecipe,
@@ -45,8 +56,9 @@ import {
 
 const DialogStyled = styled(Dialog)`
   > div > div {
-    min-width: 30%;
-    overflow-y: visible;
+    min-width: 80%;
+    min-height: 60%;
+    overflow-y: scroll;
   }
 `
 const DialogContentStyled = styled(DialogContent)`
@@ -294,6 +306,8 @@ RecipesHome.getLayout = function getLayout(page: React.ReactElement) {
 }
 
 function FormAddIngredient({ selected }: { selected: any }) {
+  const { data: unitMeasures } = useUnitMeasures()
+  const [unitMeasure, setUnitMeasure] = React.useState()
   const { control, register, handleSubmit } = useForm()
   const { fields, append, prepend, remove, swap, move, insert } = useFieldArray(
     { control, name: 'ingredient' }
@@ -326,44 +340,101 @@ function FormAddIngredient({ selected }: { selected: any }) {
     <form onSubmit={handleSubmit((data) => console.log(data))}>
       {fields.map((item, index) => (
         <div key={item.id} style={{ marginBottom: '1.5rem' }}>
-          <Controller
-            render={({ field }) => (
-              <Autocomplete
-                options={autoOptions}
-                renderInput={(params) => (
-                  <TextField {...params} label="Produto" {...field} />
+          <>
+            <Stack direction="row">
+              <Controller
+                render={({ field }) => (
+                  <Autocomplete
+                    options={autoOptions}
+                    style={{ flexGrow: 5 }}
+                    renderInput={(params) => (
+                      <TextFieldBigger
+                        {...params}
+                        {...field}
+                        fullWidth
+                        label="Produto"
+                        color="info"
+                      />
+                    )}
+                  />
+                )}
+                name={`test.${index}.product`}
+                control={control}
+              />
+              <Controller
+                name={`test.${index}.quantity`}
+                control={control}
+                render={({ field }) => (
+                  <TextFieldSmaller
+                    label="Quanto?"
+                    color="info"
+                    style={{ flexGrow: 1 }}
+                    {...field}
+                  />
                 )}
               />
-            )}
-            name={`test.${index}.product`}
-            control={control}
-          />
-          <Controller
-            render={({ field }) => <TextField label="Quantidade" {...field} />}
-            name={`test.${index}.quantity`}
-            control={control}
-          />
-          <Button
-            variant="outlined"
-            color="info"
-            type="button"
-            onClick={() => remove(index)}
-          >
-            Remover
-          </Button>
+              <Controller
+                control={control}
+                name={`test.${index}.unit_measure`}
+                render={({ field }) => {
+                  return (
+                    <TextField
+                      select
+                      label="Unidade"
+                      color="info"
+                      defaultValue={1}
+                      style={{ flexGrow: 3 }}
+                      {...field}
+                    >
+                      {unitMeasures?.results.map((unit) => (
+                        <MenuItem key={unit.id} value={unit.id}>
+                          {unit.name} ({unit.short_name})
+                        </MenuItem>
+                      ))}
+                    </TextField>
+                  )
+                }}
+              />
+              <IconButton
+                color="error"
+                type="button"
+                onClick={() => remove(index)}
+              >
+                <DeleteOutlineIcon />
+              </IconButton>
+            </Stack>
+          </>
         </div>
       ))}
-      <Button
-        type="button"
-        variant="outlined"
-        color="info"
-        onClick={() => append({ firstName: 'bill', lastName: 'luo' })}
-      >
-        Adicionar
-      </Button>
-      <Button type="submit" color="info" variant="outlined">
-        Confirmar esses
-      </Button>
+      <Stack spacing={2} direction="row">
+        <Button
+          type="button"
+          variant="contained"
+          color="secondary"
+          startIcon={<AddBoxIcon />}
+          onClick={() =>
+            append({ product: '', quantity: '', unit_measure: '' })
+          }
+        >
+          Ingrediente
+        </Button>
+        <Button
+          type="submit"
+          color="secondary"
+          variant="contained"
+          disabled={!!!fields.length}
+          startIcon={<CheckBoxIcon />}
+        >
+          Adicionar todos
+        </Button>
+      </Stack>
     </form>
   )
 }
+
+const TextFieldSmaller = styled(TextField)`
+  width: 100px;
+`
+const TextFieldBigger = styled(TextField)`
+  min-width: 300px;
+`
