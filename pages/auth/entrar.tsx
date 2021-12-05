@@ -1,7 +1,6 @@
 import { LockClosedIcon } from '@heroicons/react/solid'
 import { NextPageContext } from 'next'
 import { getCsrfToken } from 'next-auth/react'
-import Image from 'next/image'
 import Link from 'next/link'
 
 type EntrarType = {
@@ -13,28 +12,6 @@ const Entrar = ({ csrfToken }: EntrarType) => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
-        <div>
-          <div className="relative mx-auto h-12 w-auto">
-            <Image
-              className=""
-              src="https://tailwindui.com/img/logos/workflow-mark-indigo-600.svg"
-              alt="Workflow"
-              layout="fill"
-            />
-          </div>
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
-            Entre na sua conta
-          </h2>
-          <p className="hidden mt-2 text-center text-sm text-gray-600">
-            Ou{' '}
-            <a
-              href="#"
-              className="font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              inicie sua conta de teste de 14 dias
-            </a>
-          </p>
-        </div>
         <form
           className="mt-8 space-y-6"
           action="/api/auth/callback/credentials"

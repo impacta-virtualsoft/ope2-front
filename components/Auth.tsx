@@ -1,11 +1,12 @@
+import { Session } from 'next-auth'
 import { signIn } from 'next-auth/react'
 import * as React from 'react'
-import { useSession } from '~/helpers/react-query'
+import { useSession } from '~/helpers/auth-react-query'
 
 function Auth({ children }: ChildrenType): any {
   // const { data: session, status } = useSession()
   const [session, loading] = useSession()
-  const isUser = !!session?.user
+  const isUser = !!(session as Session)?.user
 
   React.useEffect(() => {
     // console.log({ session })
