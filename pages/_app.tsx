@@ -1,3 +1,11 @@
+import { CacheProvider } from '@emotion/react'
+import '@fontsource/roboto/300.css'
+import '@fontsource/roboto/400.css'
+import '@fontsource/roboto/500.css'
+import '@fontsource/roboto/700.css'
+import { PaletteMode } from '@mui/material'
+import CssBaseline from '@mui/material/CssBaseline'
+import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles'
 import { NextPage } from 'next'
 import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
@@ -10,19 +18,26 @@ import { ReactQueryDevtools } from 'react-query/devtools'
 import { Hydrate } from 'react-query/hydration'
 import Auth from '~/components/Auth'
 import Layout from '~/components/Layout'
+import { createEmotionCache } from '~/helpers/cache'
+import { originalTheme } from '~/helpers/styles'
 import '~/styles/globals.css'
-// import { UserProvider } from '~/service/UserProvider'
 
-type AppPropsWithLayout = AppProps & {
+// Client-side cache, shared for the whole session of the user in the browser.
+const clientSideEmotionCache = createEmotionCache()
+
+export type AppPropsWithLayout = AppProps & {
   Component: NextPage & {
     CustomLayout?: (page: ReactElement) => ReactNode
     isPublic?: boolean
   }
+  emotionCache?: typeof clientSideEmotionCache
 }
 function App({
   Component,
+  emotionCache = clientSideEmotionCache,
   pageProps: { session, dehydratedState, ...pageProps },
 }: AppPropsWithLayout) {
+  const [mode, setMode] = React.useState<PaletteMode>('dark')
   const [queryClient] = React.useState(() => new QueryClient())
   // Configura o provider do next-auth (login)
   const providerOptions = {
@@ -40,6 +55,19 @@ function App({
     // windows / tabs will be updated to reflect the user is signed out.
     keepAlive: 0,
   }
+
+  const colorMode = React.useMemo(
+    () => ({
+      // The dark mode switch would invoke this method
+      toggleColorMode: () => {
+        setMode((prevMode: PaletteMode) =>
+          prevMode === 'light' ? 'dark' : 'light'
+        )
+      },
+    }),
+    []
+  )
+
   // Usa o layout definido na página se houver
   const getLayout = Component.CustomLayout ? (
     Component.CustomLayout(<Component {...pageProps} />)
@@ -56,15 +84,22 @@ function App({
   )
 
   return (
-    <ThemeProvider attribute="class" defaultTheme="light">
-      <QueryClientProvider client={queryClient}>
-        <Hydrate state={dehydratedState}>
-          <Toaster />
-          <AuthComponent>{getLayout}</AuthComponent>
-          <ReactQueryDevtools initialIsOpen={false} />
-        </Hydrate>
-      </QueryClientProvider>
-    </ThemeProvider>
+    <>
+      <CacheProvider value={emotionCache}>
+        <ThemeProvider attribute="class" defaultTheme="light">
+          <MUIThemeProvider theme={originalTheme}>
+            <CssBaseline enableColorScheme />
+            <QueryClientProvider client={queryClient}>
+              <Hydrate state={dehydratedState}>
+                <Toaster />
+                <AuthComponent>{getLayout}</AuthComponent>
+                <ReactQueryDevtools initialIsOpen={false} />
+              </Hydrate>
+            </QueryClientProvider>
+          </MUIThemeProvider>
+        </ThemeProvider>
+      </CacheProvider>
+    </>
   )
 }
 

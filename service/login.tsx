@@ -1,6 +1,7 @@
 import { AxiosResponse } from 'axios'
 import jwtDecode from 'jwt-decode'
-import { LOGIN_URL, REFRESHTOKEN_URL, USERS_URL } from '~/helpers/constants'
+import { makeUrl } from '~/helpers/constants'
+import { LOGIN_PATH, REFRESHTOKEN_PATH, USER_PATH } from '~/helpers/envs'
 import { service } from '~/service'
 
 function decodeToken(token: string) {
@@ -11,7 +12,8 @@ function decodeToken(token: string) {
 async function getLoginToken(data: CredentialRequestType) {
   const config = {} /*{ headers: API_REQUEST_HEADERS }*/
   try {
-    const req = await service.post(LOGIN_URL, data, config)
+    const loginUrl = makeUrl(LOGIN_PATH, true)
+    const req = await service.post(loginUrl, data, config)
     return req.data as TokenType
   } catch (err) {
     console.error('Erro em getLoginToken')
@@ -20,11 +22,14 @@ async function getLoginToken(data: CredentialRequestType) {
 }
 
 async function getLoginUser({ access }: TokenType) {
+  const usersUrl = makeUrl(USER_PATH) + '?page_size=1000'
+  const decodedToken = decodeToken(access)
+  // console.log({ decodedToken })
+  // console.log(`${usersUrl}/${decodedToken.user_id}`)
   try {
-    const decodedToken = decodeToken(access)
     const req = await service({
       method: 'GET',
-      url: `${USERS_URL}/${decodedToken.user_id}`,
+      url: `${usersUrl}/${decodedToken.user_id}`,
       headers: {
         // ...API_REQUEST_HEADERS,
         Authorization: 'Bearer ' + access,
@@ -43,16 +48,14 @@ async function getLoginUser({ access }: TokenType) {
  * returns the old token and an error property
  */
 async function refreshAccessToken(token: GenericObject<unknown>) {
+  const refreshTokenUrl = makeUrl(REFRESHTOKEN_PATH, true)
   try {
-    // console.log('==> REFRESH TOKEN')
     const config = {}
     const data = { refresh: token.refreshToken }
-    // console.log({ token })
-    // console.log({ data })
     const getRefreshToken: AxiosResponse<
       Pick<TokenType, 'access'>,
       any
-    > = await service.post(REFRESHTOKEN_URL, data, config)
+    > = await service.post(refreshTokenUrl, data, config)
     const refreshedToken = getRefreshToken.data
     const decodedRefreshedToken = decodeToken(refreshedToken.access)
 
@@ -64,10 +67,6 @@ async function refreshAccessToken(token: GenericObject<unknown>) {
       accessToken,
       accessTokenExpires,
     }
-
-    // console.log('==> refreshAccessToken ')
-    // console.log({ response })
-    // console.log('===========================')
 
     return response
   } catch (error) {

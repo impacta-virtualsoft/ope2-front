@@ -1,13 +1,21 @@
 import React from 'react'
 import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
-import { getUsers } from '~/service/user'
+import { getClients } from '~/service/client'
+import { getPermissions } from '~/service/permission'
+import {
+  getProductDetails,
+  getProductTypes,
+  getUnitMeasures,
+} from '~/service/product'
+import { getRecipeDetails } from '~/service/recipe'
+import { getUser, getUsers, GetUsersType } from '~/service/user'
 
 type UseErrorType = {
   isError: boolean
   error: unknown
 }
-function useError({ isError, error }: UseErrorType) {
+export function useError({ isError, error }: UseErrorType) {
   const [errorMessage, setErrorMessage] = React.useState<string>('')
 
   React.useEffect(() => {
@@ -30,10 +38,44 @@ function useError({ isError, error }: UseErrorType) {
   return { errorMessage }
 }
 
-function useUsers() {
+export function useUsers() {
   const query = useQuery('users', getUsers)
-
   return query
 }
 
-export { useError, useUsers }
+export function useUser({ userId }: GetUsersType) {
+  const query = useQuery(['user', userId], () => getUser({ userId }))
+  return query
+}
+
+export function usePermissions() {
+  const query = useQuery('permissions', getPermissions)
+  return query
+}
+
+// export function useProductDetails({ page }: GetProductDetailsType) {
+export function useProductDetails() {
+  // const query = useQuery(['productDetails', page], () => getProductDetails({ page }), {     keepPreviousData: true, })
+  const query = useQuery('productDetails', getProductDetails)
+  return query
+}
+
+export function useProductTypes() {
+  const query = useQuery('productTypes', getProductTypes)
+  return query
+}
+
+export function useUnitMeasures() {
+  const query = useQuery('unitMeasures', getUnitMeasures)
+  return query
+}
+
+export function useRecipeDetails() {
+  const query = useQuery('recipeDetails', getRecipeDetails)
+  return query
+}
+
+export function useClients() {
+  const query = useQuery('clients', getClients)
+  return query
+}

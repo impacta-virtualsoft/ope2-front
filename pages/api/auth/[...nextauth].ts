@@ -34,8 +34,8 @@ export default NextAuth({
         // e.g. return { id: 1, name: 'J Smith', email: 'jsmith@example.com' }
         // You can also use the `req` object to obtain additional parameters
         // (i.e., the request IP address)
-        // console.log('==> authorize:')
-        // console.log({ credentials })
+        console.log('==> authorize:')
+        console.log({ credentials })
 
         try {
           const login = await getLoginToken(
@@ -53,8 +53,8 @@ export default NextAuth({
             accessTokenExpires,
             refreshToken: login?.refresh,
           }
-          // console.log({ response })
-          // console.log('==> fim do authorize')
+          console.log({ response })
+          console.log('==> fim do authorize')
 
           // If no error and we have user data, return it
           if (login && user && user.id) {

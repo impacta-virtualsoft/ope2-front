@@ -59,51 +59,49 @@ const Home = () => {
 
   return (
     <>
-      <main>
-        <button onClick={toggleTheme} type="button">
-          Tema
-        </button>
-        <div className="flex items-center justify-center flex-wrap">
-          <GridWithChart
-            title="Produtos"
-            href="/produtos"
-            data={data.products}
-            options={options.products}
-          />
-          <GridWithChart
-            title="Pedidos"
-            href="/pedidos"
-            data={data.orders}
-            options={options.orders}
-          />
-          <GridWithChart
-            title="Pedidos"
-            href="/pedidos"
-            data={data.ordersYesterday}
-            options={options.ordersYesterday}
-          />
-          <GridWithChart
-            title="Clientes"
-            href="/clientes"
-            data={data.clients}
-            options={options.clients}
-          />
-          <GridWithChart
-            href="/pedidos"
-            data={data.ordersByWeekday}
-            options={options.ordersByWeekday}
-            type="bar"
-            style={{ width: '61%' }}
-          />
-          <GridWithChart
-            href="/pedidos"
-            data={data.ordersByPotentialClients}
-            options={options.ordersByPotentialClients}
-            type="bar"
-            style={{ width: '93%' }}
-          />
-        </div>
-      </main>
+      <button onClick={toggleTheme} type="button">
+        Tema
+      </button>
+      <div className="flex items-center justify-center flex-wrap">
+        <GridWithChart
+          title="Produtos"
+          href="/produtos"
+          data={data.products}
+          options={options.products}
+        />
+        <GridWithChart
+          title="Pedidos"
+          href="/pedidos"
+          data={data.orders}
+          options={options.orders}
+        />
+        <GridWithChart
+          title="Pedidos"
+          href="/pedidos"
+          data={data.ordersYesterday}
+          options={options.ordersYesterday}
+        />
+        <GridWithChart
+          title="Clientes"
+          href="/clientes"
+          data={data.clients}
+          options={options.clients}
+        />
+        <GridWithChart
+          href="/pedidos"
+          data={data.ordersByWeekday}
+          options={options.ordersByWeekday}
+          type="bar"
+          style={{ width: '61%' }}
+        />
+        <GridWithChart
+          href="/pedidos"
+          data={data.ordersByPotentialClients}
+          options={options.ordersByPotentialClients}
+          type="bar"
+          style={{ width: '93%' }}
+        />
+      </div>
 
       {/* implementar gráfico de cliente vs potencial cliente (baseado na demografia do distrito) */}
     </>

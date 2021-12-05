@@ -2,33 +2,35 @@ module.exports = {
   purge: {
     enabled: true,
     content: [
-      './pages/**/*.{js,ts,jsx,tsx}',
-      './components/**/*.{js,ts,jsx,tsx}',
+      // './pages/**/*.{js,ts,jsx,tsx}',
+      // './components/**/*.{js,ts,jsx,tsx}',
     ],
     // options: {
     //   safelist: ['dark'], //specific classes
     // },
   },
-  darkMode: 'class', // or 'media' or 'class'
+  // darkMode: 'class', // or 'media' or 'class'
   theme: {
     extend: {
       colors: {
-        primary: '#f8cb00',
+        // primary: '#f8cb00',
       },
       width: {
-        'home-three': '29%',
+        // 'home-three': '29%',
       },
     },
   },
   variants: {
     extend: {
-      textColor: ['active'],
+      // textColor: ['active'],
     },
   },
   daisyui: {
+    utils: true,
+    base: true,
     themes: [
       //     // 'light',
-      'bumblebee',
+      // 'bumblebee',
       //     'dark',
       //     'cupcake',
       //     'halloween',
@@ -58,5 +60,9 @@ module.exports = {
       //     },
     ],
   },
-  plugins: [require('@tailwindcss/forms'), require('daisyui')],
+  plugins: [
+    // require('@tailwindcss/forms'),
+    // require('@tailwindcss/typography'),
+    // require('daisyui'),
+  ],
 }
