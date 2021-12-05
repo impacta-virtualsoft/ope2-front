@@ -33,7 +33,7 @@ export function useError({ isError, error }: UseErrorType) {
         setErrorMessage(message)
       } catch {}
     }
-  }, [isError, error, errorMessage])
+  }, [isError, error])
 
   return { errorMessage }
 }

@@ -14,7 +14,7 @@ const ActiveLink = ({ label, href, icon }: ActiveLinkType) => {
   const IconComponent = icon
 
   return typeof href === 'string' ? (
-    <Link href={href}>
+    <Link href={href} passHref>
       <ListItem button key={label} selected={isActive}>
         <ListItemIcon>
           <IconComponent />

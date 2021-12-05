@@ -90,7 +90,7 @@ export default function NewProduct() {
         toast.success('Produto criado com sucesso!')
       }
     }
-  }, [mutation])
+  }, [mutation, errorMessage])
 
   React.useEffect(() => {
     console.log({ errors })

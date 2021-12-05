@@ -89,7 +89,7 @@ export default function NovoUsuario() {
       }
     }
     // console.log(mutation)
-  }, [mutation])
+  }, [mutation, errorMessage])
 
   React.useEffect(() => {
     console.log({ errors })

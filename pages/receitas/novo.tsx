@@ -80,7 +80,7 @@ export default function NewRecipe() {
         toast.success('Receita criado com sucesso!')
       }
     }
-  }, [mutation])
+  }, [mutation, errorMessage])
 
   React.useEffect(() => {
     console.log({ errors })

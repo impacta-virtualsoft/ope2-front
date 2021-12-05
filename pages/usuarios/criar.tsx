@@ -60,7 +60,7 @@ const CreateUser = () => {
       }
     }
     // console.log(mutation)
-  }, [mutation])
+  }, [mutation, errorMessage])
 
   React.useEffect(() => {
     console.log({ errors })
@@ -207,7 +207,7 @@ const CreateUser = () => {
                             'input input-bordered flex-1 block w-full sm:text-sm',
                             errors.confirm_password ? 'input-error' : null
                           )}
-                          aria-describedBy="helper-confirm_password"
+                          aria-describedby="helper-confirm_password"
                         />
                       </div>
                       <FormHelper
