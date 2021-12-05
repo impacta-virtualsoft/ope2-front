@@ -29,7 +29,7 @@ export async function getUser({ userId }: GetUsersType) {
   }
 }
 
-export async function createUser(payload: UserType) {
+export async function createUser(payload: PostUserType) {
   try {
     const res = await service.post(usersUrl, payload)
     console.log({ res })

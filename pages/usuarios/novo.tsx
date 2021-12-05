@@ -50,7 +50,6 @@ export default function NovoUsuario() {
       email: '',
       password: '',
       confirm_password: '',
-      groups: '',
     },
   })
 
@@ -72,8 +71,9 @@ export default function NovoUsuario() {
       // groups: data.groups.map((group) => group.value),
       groups: [data.groups.value],
     }
-    console.log({ newData })
-    mutation.mutate(newData)
+    const { id, confirm_password, ...newDataToSend } = newData
+    console.log({ newDataToSend })
+    mutation.mutate(newDataToSend)
   }
 
   React.useEffect(() => {

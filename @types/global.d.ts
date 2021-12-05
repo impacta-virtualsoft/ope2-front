@@ -20,15 +20,6 @@ declare type DecodedTokenType = {
   orig_iat: number
 }
 
-declare type UserType = {
-  id: number
-  first_name: string
-  last_name: string
-  email: string
-  password: string
-  groups: number[]
-}
-
 type PaginatedResult<T> = {
   count: number
   next: string | null
@@ -43,8 +34,17 @@ type groupOptions = {
 type FormUserType = Omit<UserType, 'groups'> & {
   confirm_password: string
   // groups: groupOptions[]
-  groups: groupOptions | string
+  groups: groupOptions | string | number
 }
+type UserType = {
+  id: number
+  first_name: string
+  last_name: string
+  email: string
+  password: string
+  groups: number[]
+}
+type PostUserType = Omit<UserType, 'id'>
 
 type PermissionAction = 'add' | 'change' | 'delete' | 'view'
 type PermissionKey =
