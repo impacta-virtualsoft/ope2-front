@@ -7,7 +7,6 @@ import { PaletteMode } from '@mui/material'
 import CssBaseline from '@mui/material/CssBaseline'
 import { ThemeProvider as MUIThemeProvider } from '@mui/material/styles'
 import { NextPage } from 'next'
-import { SessionProvider } from 'next-auth/react'
 import { ThemeProvider } from 'next-themes'
 import type { AppProps } from 'next/app'
 import type { ReactElement, ReactNode } from 'react'
@@ -20,6 +19,7 @@ import Auth from '~/components/Auth'
 import Layout from '~/components/Layout'
 import { createEmotionCache } from '~/helpers/cache'
 import { originalTheme } from '~/helpers/styles'
+import { SessionProvider } from '~/service/SessionProvider'
 import '~/styles/globals.css'
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -78,7 +78,7 @@ function App({
   )
   // Usa Auth se a propriedade isPublic for habilitada (default: false)
   const AuthComponent = ({ children }: ChildrenType) => (
-    <SessionProvider session={session}>
+    <SessionProvider>
       {Component.isPublic ? children : <Auth>{children}</Auth>}
     </SessionProvider>
   )

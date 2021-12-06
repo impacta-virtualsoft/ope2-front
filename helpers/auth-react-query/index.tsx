@@ -2,10 +2,12 @@
 import { Session } from 'next-auth'
 import { useRouter } from 'next/router'
 import { useQuery, UseQueryOptions } from 'react-query'
+import { getToken } from '~/service/login'
 
 export async function fetchSession(): Promise<Session | null> {
-  const res = await fetch('/api/auth/session')
-  const session = await res.json()
+  // const res = await fetch('/api/auth/session')
+  // const session = await res.json()
+  const session = getToken()
   if (Object.keys(session).length) {
     return session
   }
@@ -14,7 +16,7 @@ export async function fetchSession(): Promise<Session | null> {
 
 export function useSession<R extends boolean = false>({
   required,
-  redirectTo = '/api/auth/signin?error=SessionExpired',
+  redirectTo = '/entrar?error=Expirado',
   queryConfig = {},
 }: {
   /** If set to `true`, the returned session is guaranteed to not be `null` */

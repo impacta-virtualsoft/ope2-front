@@ -1,5 +1,4 @@
 import React from 'react'
-import toast from 'react-hot-toast'
 import { useQuery } from 'react-query'
 import { getClients } from '~/service/client'
 import { getPermissions } from '~/service/permission'
@@ -13,7 +12,7 @@ import { getUser, getUsers, GetUsersType } from '~/service/user'
 
 type UseErrorType = {
   isError: boolean
-  error: unknown
+  error: Error
 }
 export function useError({ isError, error }: UseErrorType) {
   const [errorMessage, setErrorMessage] = React.useState<string>('')
@@ -21,15 +20,10 @@ export function useError({ isError, error }: UseErrorType) {
   React.useEffect(() => {
     if (isError) {
       try {
-        const message = JSON.parse(
-          (error as GenericObject<unknown>).message as string
-        ).message
-        toast.error(
-          message ? `Erro inesperado: ${errorMessage}` : 'Erro inesperado',
-          {
-            position: 'bottom-right',
-          }
-        )
+        const message = error.message || error.toString()
+        // toast.error(message ? `Erro: ${errorMessage}` : 'Erro inesperado', {
+        //   position: 'bottom-right',
+        // })
         setErrorMessage(message)
       } catch {}
     }

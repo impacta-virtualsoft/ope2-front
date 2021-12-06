@@ -1,3 +1,4 @@
+import { LockOutlined } from '@mui/icons-material'
 import BadgeIcon from '@mui/icons-material/Badge'
 import ContactsIcon from '@mui/icons-material/Contacts'
 import HomeIcon from '@mui/icons-material/Home'
@@ -17,13 +18,20 @@ import {
   Typography,
 } from '@mui/material'
 import { alpha, styled } from '@mui/material/styles'
-import { signOut } from 'next-auth/react'
+import router from 'next/router'
 import * as React from 'react'
 import LogoDH from '~/assets/images/logo-divina-symbol.svg'
 import { DRAWER_WIDTH } from '~/helpers/constants'
 import { usePermissions } from '~/helpers/hooks'
+import { removeToken } from '~/service/login'
 import ActiveLink from './ActiveLink'
 import Meta from './Meta'
+
+function signOut() {
+  // console.log('Implementar: signOut()')
+  removeToken()
+  router.push('/entrar')
+}
 
 const navMain = [
   { label: 'Início', href: '/', icon: HomeIcon },
@@ -53,6 +61,7 @@ const navMain = [
   },
   { label: 'Pedidos', href: '/pedidos', apiKeys: ['user'], icon: ReceiptIcon },
   { label: 'Usuários', href: '/usuarios', apiKeys: ['user'], icon: BadgeIcon },
+  { label: 'Sair', href: () => signOut(), icon: LockOutlined },
   // { label: 'Relatórios', href: '/relatorios', icon: AssessmentIcon },
 ]
 const navUser = [
