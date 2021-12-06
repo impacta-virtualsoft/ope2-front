@@ -45,6 +45,7 @@ type UserType = {
   groups: number[]
 }
 type PostUserType = Omit<UserType, 'id'>
+type UserTypeRes = Omit<UserType, 'password'>
 
 type PermissionAction = 'add' | 'change' | 'delete' | 'view'
 type PermissionKey =
@@ -148,4 +149,20 @@ type ClientType = {
 type FormNewClient = {
   name?: string
   cpf?: string
+}
+
+// Menu
+type FormNewMenuType = {
+  name: string
+  description: string
+  recipe_menu: RecipeType['id'][]
+  product_menu: ProductType['id'][]
+  monday: boolean
+  tuesday: boolean
+  wednesday: boolean
+  thursday: boolean
+  friday: boolean
+  saturday: boolean
+  sunday: boolean
+  status: string
 }

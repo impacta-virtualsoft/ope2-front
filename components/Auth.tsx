@@ -1,12 +1,19 @@
-import { Session } from 'next-auth'
-import { signIn } from 'next-auth/react'
+import { useRouter } from 'next/router'
 import * as React from 'react'
 import { useSession } from '~/helpers/auth-react-query'
 
+type Session = {
+  access: string
+}
 function Auth({ children }: ChildrenType): any {
   // const { data: session, status } = useSession()
   const [session, loading] = useSession()
-  const isUser = !!(session as Session)?.user
+  const router = useRouter()
+  const isUser = !!(session as Session)?.access
+
+  function handleRedirect() {
+    router.push('/entrar')
+  }
 
   React.useEffect(() => {
     // console.log({ session })
@@ -14,7 +21,7 @@ function Auth({ children }: ChildrenType): any {
     // console.log({ loading })
     // if (status === 'loading') return // Do nothing while loading
     if (loading) return // Do nothing while loading
-    if (!isUser) signIn() // If not authenticated, force log in
+    if (!isUser) handleRedirect() // If not authenticated, force log in
     // }, [isUser, session, status])
   }, [isUser, session, loading])
 

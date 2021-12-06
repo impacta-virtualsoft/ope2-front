@@ -5,7 +5,7 @@ import React from 'react'
 
 type ActiveLinkType = {
   label: string
-  href: string
+  href: string | (() => void)
   icon: typeof SvgIcon
 }
 const ActiveLink = ({ label, href, icon }: ActiveLinkType) => {
@@ -23,7 +23,7 @@ const ActiveLink = ({ label, href, icon }: ActiveLinkType) => {
       </ListItem>
     </Link>
   ) : (
-    <ListItem button key={label} selected={isActive}>
+    <ListItem button key={label} selected={isActive} onClick={href}>
       <ListItemIcon>
         <IconComponent />
       </ListItemIcon>
